@@ -9,17 +9,21 @@ import {
   BeforeUpdate,
   OneToMany,
   ManyToMany,
+  JoinTable,
 } from "typeorm";
 import Invites from "./invites.entity";
-import Requirement from "./requirement.entity";
+import Skill from "./skill.entity";
 
-@Entity("band")
-export default class Band {
+@Entity("musician")
+export default class Musician {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column({ length: 50 })
   name: string;
+
+  @Column({ length: 50 })
+  username: string;
 
   @Column({ length: 50, unique: true })
   email: string;
@@ -33,8 +37,11 @@ export default class Band {
   @Column({ length: 2, nullable: true })
   state: string;
 
-  @Column({ length: 50, nullable: true })
-  genre: string;
+  @ManyToMany(() => Skill, (skill) => skill.musicians)
+  skills: Skill[];
+
+  @Column({ length: 20, nullable: true })
+  skill_level: string;
 
   @Column({ length: 50, nullable: true })
   social_media: string;
@@ -48,10 +55,7 @@ export default class Band {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToMany(() => Requirement, (requirement) => requirement.bands)
-  requirement: Requirement[];
-
-  @OneToMany(() => Invites, (invite) => invite.bandId)
+  @OneToMany(() => Invites, (invite) => invite.musicianId)
   invites: Invites[];
 
   @Column({ default: false })
