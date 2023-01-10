@@ -22,7 +22,7 @@ export default class Musician {
   @Column({ length: 50 })
   name: string;
 
-  @Column({ length: 50 })
+  @Column({ length: 50,  nullable: true})
   username: string;
 
   @Column({ length: 50, unique: true })
