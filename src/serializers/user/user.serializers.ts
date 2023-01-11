@@ -15,7 +15,7 @@ export const createUserSerializer: yup.SchemaOf<iUserRequest> = yup
     password: yup.string().required(),
     type: yup.string().required(),
     skills: yup.object().shape({
-      id: yup.string().uuid().notRequired(),
+      id: yup.string().uuid().required(),
     }),
   });
 
