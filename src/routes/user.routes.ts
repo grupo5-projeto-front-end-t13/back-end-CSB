@@ -7,3 +7,4 @@ export const userRoutes = Router();
 userRoutes.post("");
 userRoutes.get("/band", listBandsController)
 userRoutes.get("/musician", listMusiciansController);
+userRoutes.post('/invites', createInviteController)
