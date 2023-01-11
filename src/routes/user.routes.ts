@@ -4,6 +4,7 @@ import { validateDataMiddleware } from "../middlewares/validateSerializer.middle
 import { createUserSerializer } from "../serializers/user/user.serializers";
 import { listBandsController } from "../controllers/band/listBands.controller";
 import { listMusiciansController } from "../controllers/user/listMusicians.controller";
+import { createUserInviteController } from "../controllers/user/userCreateInvite.controller";
 
 export const userRoutes = Router();
 
@@ -14,3 +15,4 @@ userRoutes.post(
 );
 userRoutes.get("/band", listBandsController);
 userRoutes.get("/musician", listMusiciansController);
+userRoutes.post('/invites', createUserInviteController)
