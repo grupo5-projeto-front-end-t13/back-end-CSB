@@ -3,7 +3,8 @@ import { deleteService } from "../../services/user/userDelete.service"
 
 export const deleteController = async(req: Request, res: Response) => {
   const id: string = req.params.id
+  console.log(id)
   const user = await deleteService(id)
-  return res.status(200).json(user)
+  return res.status(204).json(user)
   
 }
