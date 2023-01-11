@@ -1,24 +1,28 @@
-import * as yup from 'yup'
-import { iUserRequest, iUserResponse, iUserUpdateRequest } from '../../interfaces/user.interfaces';
+import * as yup from "yup";
+import {
+  iUserRequest,
+  iUser,
+  iUserUpdateRequest,
+  iUserCreateResponse,
+} from "../../interfaces/user.interfaces";
 import { returnInviteSerializer } from "../invite/invite.serializers";
 
+export const createUserSerializer: yup.SchemaOf<iUserRequest> = yup
+  .object()
+  .shape({
+    name: yup.string().required(),
+    email: yup.string().email().required(),
+    password: yup.string().required(),
+    type: yup.string().required(),
+    skillsId: yup.string().uuid().required(),
+  });
 
-export const createUserSerializer: yup.SchemaOf<iUserRequest> = yup.object().shape({
-  name:  yup.string().required(),
-  email: yup.string().email().required(),
-  password:  yup.string().required(),
-  skill: yup.object().shape({
-    id: yup.string().uuid().required(),
-    name:  yup.string().required(),
-  })
-})
-
-export const createUserResponseSerializer: yup.SchemaOf<iUserResponse> =  yup.object().shape({
+export const userSerializer: yup.SchemaOf<iUser> = yup.object().shape({
   id: yup.string().uuid().required(),
   email: yup.string().email().required(),
   type: yup.string().required(),
   username: yup.string().notRequired(),
-  name:  yup.string().required(),
+  name: yup.string().required(),
   bio: yup.string().required(),
   genre: yup.string().notRequired(),
   image: yup.string().required(),
@@ -27,25 +31,33 @@ export const createUserResponseSerializer: yup.SchemaOf<iUserResponse> =  yup.ob
   state: yup.string().required(),
   createdAt: yup.date().required(),
   updatedAt: yup.date().required(),
-  invites: yup.array(returnInviteSerializer),
-  skill: yup.object().shape({
-    id: yup.string().uuid().required(),
-    name:  yup.string().required(),
-  })
-})
+  invites: yup.array(returnInviteSerializer).notRequired(),
+  skillsId: yup.string().uuid().required(),
+});
 
-export const updateUserSerializer: yup.SchemaOf<iUserUpdateRequest> =  yup.object().shape({
-  name:  yup.string().notRequired(),
-  username: yup.string().notRequired(),
-  email: yup.string().email().notRequired(),
-  password: yup.string().notRequired(),
-  bio: yup.string().notRequired(),
-  state: yup.string().notRequired(),
-  genre: yup.string().notRequired(),
-  social_media: yup.string().notRequired(),
-  image: yup.string().notRequired(),
-  createdAt: yup.date().notRequired(),
-  updatedAt: yup.date().notRequired(),
-  invites: yup.array(returnInviteSerializer),
-})
-
+export const createUserResponseSerializer: yup.SchemaOf<iUserCreateResponse> =
+  yup.object().shape({
+    id: yup.string().uuid().notRequired(),
+    name: yup.string().notRequired(),
+    email: yup.string().email().notRequired(),
+    type: yup.string().notRequired(),
+    skillsId: yup.string().uuid().notRequired(),
+    createdAt: yup.date().notRequired(),
+    updatedAt: yup.date().notRequired(),
+  });
+export const updateUserSerializer: yup.SchemaOf<iUserUpdateRequest> = yup
+  .object()
+  .shape({
+    name: yup.string().notRequired(),
+    username: yup.string().notRequired(),
+    email: yup.string().email().notRequired(),
+    password: yup.string().notRequired(),
+    bio: yup.string().notRequired(),
+    state: yup.string().notRequired(),
+    genre: yup.string().notRequired(),
+    social_media: yup.string().notRequired(),
+    image: yup.string().notRequired(),
+    createdAt: yup.date().notRequired(),
+    updatedAt: yup.date().notRequired(),
+    invites: yup.array(returnInviteSerializer),
+  });
