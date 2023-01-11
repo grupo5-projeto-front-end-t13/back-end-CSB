@@ -9,6 +9,6 @@ import { AppDataSource } from "./data-source";
   const PORT = process.env.PORT || 3000;
 
   app.listen(PORT, () => {
-    console.log(`app is running on https://localhost:${PORT}`);
+    console.log(`app is running on http://localhost:${PORT}`);
   });
 })();
