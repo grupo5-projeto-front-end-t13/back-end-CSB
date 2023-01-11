@@ -22,5 +22,4 @@ export default class Invites {
   
   @ManyToOne(() => User)
   userIdSend: User
-
 }
