@@ -14,7 +14,9 @@ export const createUserSerializer: yup.SchemaOf<iUserRequest> = yup
     email: yup.string().email().required(),
     password: yup.string().required(),
     type: yup.string().required(),
-    skillsId: yup.string().uuid().required(),
+    skills: yup.object().shape({
+      id: yup.string().uuid().notRequired(),
+    }),
   });
 
 export const userSerializer: yup.SchemaOf<iUser> = yup.object().shape({
@@ -32,7 +34,9 @@ export const userSerializer: yup.SchemaOf<iUser> = yup.object().shape({
   createdAt: yup.date().required(),
   updatedAt: yup.date().required(),
   invites: yup.array(returnInviteSerializer).notRequired(),
-  skillsId: yup.string().uuid().required(),
+  skills: yup.object().shape({
+    id: yup.string().uuid().required(),
+  }),
 });
 
 export const createUserResponseSerializer: yup.SchemaOf<iUserCreateResponse> =
@@ -41,7 +45,9 @@ export const createUserResponseSerializer: yup.SchemaOf<iUserCreateResponse> =
     name: yup.string().notRequired(),
     email: yup.string().email().notRequired(),
     type: yup.string().notRequired(),
-    skillsId: yup.string().uuid().notRequired(),
+    skills: yup.object().shape({
+      id: yup.string().uuid().required(),
+    }),
     createdAt: yup.date().notRequired(),
     updatedAt: yup.date().notRequired(),
   });
@@ -60,4 +66,7 @@ export const updateUserSerializer: yup.SchemaOf<iUserUpdateRequest> = yup
     createdAt: yup.date().notRequired(),
     updatedAt: yup.date().notRequired(),
     invites: yup.array(returnInviteSerializer),
+    skills: yup.object().shape({
+      id: yup.string().uuid().required(),
+    }),
   });

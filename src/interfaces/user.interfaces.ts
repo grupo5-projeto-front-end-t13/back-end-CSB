@@ -2,14 +2,13 @@ import { iInviteRequest } from "./invites.interfaces";
 
 export interface iSkill {
   id?: string;
-  name?: string;
 }
 
 export interface iUserRequest {
   name: string;
   email: string;
   password: string;
-  skillsId: string;
+  skills: iSkill;
   type: string;
 }
 
@@ -28,14 +27,14 @@ export interface iUser {
   updatedAt: Date;
   invites: iInviteRequest[];
   isAdm: boolean;
-  skillsId: string;
+  skills: iSkill;
 }
 
 export interface iUserCreateResponse {
   id?: string;
   name?: string;
   email?: string;
-  skillsId?: string;
+  skills?: iSkill;
   createdAt?: Date;
   updatedAt?: Date;
   type?: string;
@@ -51,4 +50,5 @@ export interface iUserUpdateRequest {
   genre?: string;
   social_media?: string;
   image?: string;
+  skills: iSkill;
 }

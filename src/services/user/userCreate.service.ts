@@ -9,12 +9,16 @@ import { createUserResponseSerializer } from "../../serializers/user/user.serial
 export const createUsersService = async (
   data: iUserRequest
 ): Promise<iUserCreateResponse> => {
+  const { skills, ...rest } = data;
   const findSkill = await skillRepository.findOneBy({
-    id: data.skillsId,
+    id: data.skills.id,
   });
-  const user = userRepository.create(data);
+  const user = userRepository.create({
+    ...rest,
+    skills: { id: findSkill?.id },
+  });
   await userRepository.save(user);
-
+  console.log(user);
   const returnNewUser = await createUserResponseSerializer.validate(user, {
     stripUnknown: true,
   });
