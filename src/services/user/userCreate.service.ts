@@ -12,14 +12,17 @@ export const createUsersService = async (
   const findSkill = await skillRepository.findOneBy({
     id: data.skills.id,
   });
+
   const user = userRepository.create({
     ...rest,
-    skills: { id: findSkill?.id },
+    skills: {id: findSkill?.id},
   });
+
   await userRepository.save(user);
-  console.log(user);
+
   const returnNewUser = await createUserResponseSerializer.validate(user, {
     stripUnknown: true,
   });
+
   return returnNewUser;
-}
+};
