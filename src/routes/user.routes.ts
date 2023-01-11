@@ -12,7 +12,5 @@ userRoutes.post(
   validateDataMiddleware(createUserSerializer),
   createUsersController
 );
-
-userRoutes.post("");
 userRoutes.get("/band", listBandsController);
 userRoutes.get("/musician", listMusiciansController);
