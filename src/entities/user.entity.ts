@@ -11,6 +11,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import Invites from "./invites.entity";
 // import Invites from "./invites.entity";
 import Skill from "./skill.entity";
 
@@ -61,11 +62,11 @@ export default class User {
   @ManyToOne(() => Skill)
   skills: Skill;
 
-  // @OneToMany(() => Invites, (invite) => invite.userIdReceiver)
-  // invitesReceiver: Invites[];
+  @OneToMany(() => Invites, (invite) => invite.userIdReceive)
+  invitesReceiver: Invites[];
 
-  // @OneToMany(() => Invites, (invite) => invite.userIdSend)
-  // invitesSend: Invites[];
+  @OneToMany(() => Invites, (invite) => invite.userIdSend)
+  invitesSend: Invites[];
 
   @BeforeInsert()
   @BeforeUpdate()

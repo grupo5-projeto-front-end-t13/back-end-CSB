@@ -5,7 +5,7 @@ export const listMusiciansService = async () => {
   const userRepository = AppDataSource.getRepository(User);
 
   const musicians = await userRepository.findBy({
-    type: "Musician",
+    type: "musician",
   });
 
   return musicians;

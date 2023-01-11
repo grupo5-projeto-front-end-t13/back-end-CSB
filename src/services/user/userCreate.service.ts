@@ -8,10 +8,12 @@ import { createUserResponseSerializer } from "../../serializers/user/user.serial
 export const createUsersService = async (
   data: iUserRequest
 ): Promise<iUserCreateResponse> => {
+  console.log(data)
   const { skills, ...rest } = data;
   const findSkill = await skillRepository.findOneBy({
     id: data.skills.id,
   });
+  console.log(findSkill)
   const user = userRepository.create({
     ...rest,
     skills: { id: findSkill?.id },
