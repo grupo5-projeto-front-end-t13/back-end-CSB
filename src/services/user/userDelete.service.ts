@@ -9,3 +9,4 @@ export const deleteService = async(id: string): Promise<void> => {
   } 
   await userRepository.remove(user)
 }
+
