@@ -25,7 +25,6 @@ export interface iUser {
   image: string;
   createdAt: Date;
   updatedAt: Date;
-  invites: iInviteRequest[];
   isAdm: boolean;
   skills: iSkill;
 }

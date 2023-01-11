@@ -1,12 +1,19 @@
+export interface iUserIdSend{
+  id: string
+}
+export interface iUserIdReceive{
+  id: string
+}
+
 export interface iInviteRequest {
-  userIdSend : string;
-  userIdReceiver: string;
+  userIdSend: iUserIdSend;
+  userIdReceive: iUserIdReceive;
 }
 
 export interface iInviteResponse {
   id: string;
-  userIdSend : string;
-  userIdReceiver: string;
+  userIdSend: iUserIdSend;
+  userIdReceive: iUserIdReceive;
   createdAt: Date;
 }
 
