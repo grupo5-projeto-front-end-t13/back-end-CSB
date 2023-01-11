@@ -1,4 +1,4 @@
-import { listMusiciansService } from "../../services/user/listMusicians.controller";
+import { listMusiciansService } from "../../services/user/listMusicians.service";
 
 export const listMusiciansController = async () => {
   const data = await listMusiciansService();
