@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { deleteController } from "../controllers/user/userDelete.controller";
-import { validateIdMiddleware } from "../middlewares/validateId.middleware";
+import { listBandsController } from "../controllers/band/listBands.controller";
+import { listMusiciansController } from "../controllers/user/listMusicians.controller";
 
 export const userRoutes = Router();
 
 userRoutes.post("");
-
-userRoutes.delete(':id', validateIdMiddleware, deleteController)
+userRoutes.get("/band", listBandsController)
+userRoutes.get("/musician", listMusiciansController);
