@@ -1,3 +1,4 @@
+import { AppError } from "../../errors/errors";
 import {
   iUserRequest,
   iUserCreateResponse,
@@ -9,6 +10,11 @@ export const createUsersService = async (
   data: iUserRequest
 ): Promise<iUserCreateResponse> => {
   const { skills, ...rest } = data;
+
+  const findUser = await userRepository.findOneBy({ email: data.email });
+  
+  if(findUser) throw new AppError(409, "User already exists");
+
   const findSkill = await skillRepository.findOneBy({
     id: data.skills.id,
   });
