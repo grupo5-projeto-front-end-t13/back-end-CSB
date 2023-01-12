@@ -13,6 +13,7 @@ export const createUserSerializer: yup.SchemaOf<iUserRequest> = yup
   .object()
   .shape({
     name: yup.string().required(),
+    isAdm: yup.boolean().required(),
     email: yup.string().email().required(),
     password: yup.string().required(),
     type: yup.string().required(),
