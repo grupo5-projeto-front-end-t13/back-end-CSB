@@ -9,6 +9,8 @@ import { deleteController } from "../controllers/user/userDelete.controller";
 import { validateIdMiddleware } from "../middlewares/validateId.middleware";
 import { listUserReceivedInvitesController } from "../controllers/user/listUserReceivedInvites.controller";
 import { listUserSendedInvitesController } from "../controllers/user/listUserSendedInvites.controller";
+import { deleteInviteController } from "../controllers/user/deleteInviteController";
+import { validateInviteIdMiddleware } from "../middlewares/validateInviteId.middleware";
 
 export const userRoutes = Router();
 
@@ -30,4 +32,9 @@ userRoutes.get(
   listUserSendedInvitesController
 );
 userRoutes.post("/invites", createUserInviteController);
-userRoutes.delete("/:id", deleteController);
+userRoutes.delete("/:id", validateIdMiddleware, deleteController);
+userRoutes.delete(
+  "/invites/:id",
+  validateInviteIdMiddleware,
+  deleteInviteController
+);

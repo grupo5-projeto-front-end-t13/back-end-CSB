@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { QueryFailedError } from "typeorm";
 
 class AppError extends Error {
     statusCode: number
@@ -14,8 +15,11 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
     if(err instanceof AppError) {
         return res.status(err.statusCode).json({ message: err.message })
     }
+    if(err.message.includes("invalid input syntax")){
+        return res.status(404).json({message: "inválido"});
+    }
 
-    console.log(err.message);
+    console.log("o erro é:" + err.message);
 
     return res.status(500).json({ message: "Internal server error" });
 
