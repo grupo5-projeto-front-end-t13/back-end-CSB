@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { QueryFailedError } from "typeorm";
 
 class AppError extends Error {
     statusCode: number
