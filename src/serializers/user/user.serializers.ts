@@ -5,6 +5,7 @@ import {
   iUserUpdateRequest,
   iUserCreateResponse,
   iUserBand,
+  iUserMusician,
 } from "../../interfaces/user.interfaces";
 import { returnInviteSerializer } from "../invite/invite.serializers";
 
@@ -35,12 +36,32 @@ export const userSerializer: yup.SchemaOf<iUser> = yup.object().shape({
   state: yup.string().required(),
   createdAt: yup.date().required(),
   updatedAt: yup.date().required(),
-  invites: yup.array(returnInviteSerializer).notRequired(),
   skills: yup.object().shape({
     id: yup.string().uuid().required(),
     name:yup.string().notRequired()
   }),
 });
+
+export const musicianSerializer: yup.SchemaOf<iUserMusician> = yup
+  .object()
+  .shape({
+    id: yup.string().uuid().required(),
+    email: yup.string().email().required(),
+    username: yup.string().nullable(),
+    name: yup.string().required(),
+    bio: yup.string().nullable(),
+    image: yup.string().nullable(),
+    social_media: yup.string().nullable(),
+    state: yup.string().nullable(),
+    createdAt: yup.date().required(),
+    updatedAt: yup.date().required(),
+    skills: yup.object().shape({
+      id: yup.string().uuid().required(),
+      name: yup.string().notRequired(),
+    }),
+  });
+
+export const listUserMusician = yup.array(musicianSerializer);
 
 export const bandSerializer: yup.SchemaOf<iUserBand> = yup.object().shape({
   id: yup.string().uuid().required(),
@@ -54,11 +75,11 @@ export const bandSerializer: yup.SchemaOf<iUserBand> = yup.object().shape({
   createdAt: yup.date().required(),
   updatedAt: yup.date().required(),
   skills: yup.object().shape({
-    id: yup.string().uuid().required()
+    id: yup.string().uuid().required(),
   }),
-})
+});
 
-export const listUserBands = yup.array(bandSerializer)
+export const listUserBands = yup.array(bandSerializer);
 
 export const createUserResponseSerializer: yup.SchemaOf<iUserCreateResponse> =
   yup.object().shape({
