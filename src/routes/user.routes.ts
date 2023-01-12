@@ -6,11 +6,11 @@ import {
   updateUserSerializer,
 } from "../serializers/user/user.serializers";
 import { listBandsController } from "../controllers/user/listBands.controller";
-import { listMusiciansController } from "../controllers/user/listMusicians.controller";
 import { deleteController } from "../controllers/user/userDelete.controller";
 import { userUpdateController } from "../controllers/user/userUpdate.controller";
 import { validateIdMiddleware } from "../middlewares/validateId.middleware";
 import { listAllUsersController } from "../controllers/user/listAllUsers.controller";
+import { listMusiciansController } from "../controllers/user/listMusicians.controller";
 
 export const userRoutes = Router();
 

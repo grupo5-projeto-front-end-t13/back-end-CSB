@@ -61,7 +61,7 @@ export const musicianSerializer: yup.SchemaOf<iUserMusician> = yup
     skills: yup.object().shape({
       id: yup.string().uuid().required(),
       name: yup.string().notRequired(),
-    }),
+    }).nullable(),
   });
 
 export const listUserMusician = yup.array(musicianSerializer);
@@ -98,6 +98,7 @@ export const createUserResponseSerializer: yup.SchemaOf<iUserCreateResponse> =
     createdAt: yup.date().notRequired(),
     updatedAt: yup.date().notRequired(),
   });
+  
 export const updateUserSerializer: yup.SchemaOf<iUserUpdateRequest> = yup
   .object()
   .shape({
