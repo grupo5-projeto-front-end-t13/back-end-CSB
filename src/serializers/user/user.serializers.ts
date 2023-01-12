@@ -20,6 +20,7 @@ export const createUserSerializer: yup.SchemaOf<iUserRequest> = yup
       id: yup.string().uuid().required(),
       name: yup.string().notRequired(),
     }),
+    isAdm: yup.boolean().notRequired(),
   });
 
 export const userSerializer: yup.SchemaOf<iUser> = yup.object().shape({

@@ -2,7 +2,7 @@ import { iInviteRequest } from "./invites.interfaces";
 
 export interface iSkill {
   id?: string;
-  name?:string;
+  name?: string;
 }
 
 export interface iUserRequest {
@@ -11,6 +11,7 @@ export interface iUserRequest {
   password: string;
   skills: iSkill;
   type: string;
+  isAdm?: boolean;
 }
 
 export interface iUser {
