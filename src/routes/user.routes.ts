@@ -5,7 +5,7 @@ import {
   createUserSerializer,
   updateUserSerializer,
 } from "../serializers/user/user.serializers";
-import { listBandsController } from "../controllers/band/listBands.controller";
+import { listBandsController } from "../controllers/user/listBands.controller";
 import { listMusiciansController } from "../controllers/user/listMusicians.controller";
 import { deleteController } from "../controllers/user/userDelete.controller";
 import { userUpdateController } from "../controllers/user/userUpdate.controller";
