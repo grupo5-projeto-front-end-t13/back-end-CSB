@@ -22,12 +22,12 @@ userRoutes.post(
 userRoutes.get("/band", listBandsController);
 userRoutes.get("/musician", listMusiciansController);
 userRoutes.get(
-  "invites/received/:id",
+  "/invites/received/:id",
   validateIdMiddleware,
   listUserReceivedInvitesController
 );
 userRoutes.get(
-  "invites/sended/:id",
+  "/invites/sended/:id",
   validateIdMiddleware,
   listUserSendedInvitesController
 );
