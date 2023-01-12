@@ -10,6 +10,7 @@ import { listMusiciansController } from "../controllers/user/listMusicians.contr
 import { deleteController } from "../controllers/user/userDelete.controller";
 import { userUpdateController } from "../controllers/user/userUpdate.controller";
 import { validateIdMiddleware } from "../middlewares/validateId.middleware";
+import { listAllUsersController } from "../controllers/user/listAllUsers.controller";
 
 export const userRoutes = Router();
 
@@ -20,6 +21,7 @@ userRoutes.post(
 );
 userRoutes.get("/band", listBandsController);
 userRoutes.get("/musician", listMusiciansController);
+userRoutes.get("", listAllUsersController);
 userRoutes.patch(
   "/:id",
   validateDataMiddleware(updateUserSerializer),

@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { AppError } from "../errors/errors";
 import { userRepository } from "../repositories/userRepository";
 
 export const validateIdMiddleware = async (
