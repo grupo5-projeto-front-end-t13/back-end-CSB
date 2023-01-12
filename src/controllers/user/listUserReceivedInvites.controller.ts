@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { listUserReceivedInvitesService } from "../../services/user/listUserReceivedInvites.service";
+import { listUserReceivedInvitesService } from "../../services/invites/listUserReceivedInvites.service";
 
 export const listUserReceivedInvitesController = async (
   req: Request,

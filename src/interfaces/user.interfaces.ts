@@ -29,6 +29,20 @@ export interface iUser {
   skills: iSkill;
 }
 
+export interface iUserMusician {
+  id: string;
+  name: string;
+  username?: string | null;
+  email: string;
+  bio?: string | null;
+  state?: string | null;
+  social_media?: string | null;
+  image?: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  skills: iSkill;
+}
+
 export interface iUserBand {
   id: string;
   name: string;
