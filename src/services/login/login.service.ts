@@ -8,7 +8,8 @@ export const loginService = async (data: iLogin)  => {
 
     const token = jwt.sign(
         {
-            type: user?.type
+            type: user?.type,
+            isAdm: user?.isAdm
         },
         process.env.SECRET_KEY!,
         { expiresIn: "24h", subject: user?.id}
