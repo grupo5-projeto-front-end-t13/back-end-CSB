@@ -1,7 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 
 class AppError extends Error {
-  statusCode: number;
+    statusCode: number
+    constructor(statusCode = 400, message: string){
+        super()
+        this.statusCode = statusCode
+        this.message = message
+    }
+}
 
 const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
     if(err instanceof AppError) {
