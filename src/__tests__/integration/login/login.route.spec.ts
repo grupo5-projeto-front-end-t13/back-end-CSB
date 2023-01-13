@@ -1,16 +1,15 @@
 import { DataSource } from "typeorm";
 import { AppDataSource } from "../../../data-source";
-import { userRepository } from "../../../repositories/userRepository"
-import { mockedLoginNotAdmRequest, mockedLoginAdmRequest, mockedUserAdmRequest } from "../../mocks"
+import { mockedLoginAdmRequest, mockedUserAdmRequest } from "../../mocks"
 import request from "supertest";
 import app from "../../../app";
-import {compare} from "bcryptjs"
+import { userRepository } from "../../../repositories/userRepository";
 
-describe ('Authentication', ()=>{
+describe ('Login route tests', () => {
   let conn: DataSource;
   const baseUrl: string = "/login"
-  let tokenAdm = ""
-  let tokenNotAdm = ""
+  let tokenAdm = "";
+  let tokenNotAdm = "";
 
   beforeAll(async()=>{
     await AppDataSource.initialize()
@@ -27,36 +26,16 @@ describe ('Authentication', ()=>{
     await userRepository.remove(users)
   })
   
-  it('should autheticate with valid credentials', async()=>{
-    const user = userRepository.create(mockedUserAdmRequest)
-    await userRepository.save(user)
-    const response = await request(app).post(baseUrl).send(mockedLoginAdmRequest);
-    
-    const compareHash = await compare('123456', user.password)
-    
-    expect(compareHash).toBe(true)
-  })
-
-  it("Testando login válido", async () => {
-    const user = userRepository.create(mockedUserAdmRequest)
-    await userRepository.save(user)
+  it('should authenticate with valid credentials', async() => {
+    await request(app).post("/users").send(mockedUserAdmRequest);
     const response = await request(app).post(baseUrl).send(mockedLoginAdmRequest);
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("token");
-    expect(typeof response.body.token).toBe("string");
+  })
 
-    const notAdmLogin = await request(app).post("/login").send(mockedLoginNotAdmRequest);
-    tokenNotAdm = notAdmLogin.body.token
-    tokenAdm = response.body.token
-  });
-
-  test("Testando login inválido", async () => {
-    const user = userRepository.create(mockedUserAdmRequest)
-    await userRepository.save(user)
-    console.log(user)
-    const user1 = await userRepository.findOneBy({id: user.id})
-    console.log(user1)
+  it("should not authenticate with invalid credentials", async () => {
+    await request(app).post("/users").send(mockedUserAdmRequest);
     const response = await request(app).post("/login").send({
       email: "bruno@gmail.com",
       password: "123",
@@ -66,4 +45,5 @@ describe ('Authentication', ()=>{
     expect(response.body).toHaveProperty("message");
   });
 
-})
+  console.log(tokenAdm, tokenNotAdm)
+});

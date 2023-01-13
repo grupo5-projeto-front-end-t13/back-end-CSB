@@ -3,7 +3,7 @@ import { DataSource } from "typeorm";
 import app from "../../../app";
 import { AppDataSource } from "../../../data-source";
 import { inviteRepository } from "../../../repositories/inviteRepository";
-import { mockedInviteRequest } from "../../mocks";
+import { mockedBand1, mockedBand1Login, mockedMusician1 } from "../../mocks";
 
 describe("Create invite route tests", ()=>{
   let conn: DataSource;
@@ -25,16 +25,17 @@ describe("Create invite route tests", ()=>{
   })
 
   it("Should be able to create a invite", async()=>{
-    const response = await request(app).post(baseUrl).send(mockedInviteRequest)
-    console.log(response.body)
+    const user1 = await request(app).post("/users").send(mockedBand1);
+    const user2 = await request(app).post("/users").send(mockedMusician1);
+    const loginUser1 = await request(app).post("/login").send(mockedBand1Login)
+    const response = await request(app).post(baseUrl).send({userIdSend: {id: user1.body.id},
+    userIdReceive: {id: user2.body.id}},).set("Authorization", `Bearer ${loginUser1.body.token}`);
+    
     expect(response.status).toBe(201)
     expect(response.body).toEqual(expect.objectContaining({id: expect.any(String)}))
     expect(response.body).toEqual(expect.objectContaining({createdAt: expect.any(String)}))
 
     const [invites, amount] = await inviteRepository.findAndCount()
     expect(amount).toBe(1)
-  })
-
-
-
-})
+  });
+});

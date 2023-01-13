@@ -1,3 +1,4 @@
+import { iLogin } from "../../../interfaces/login.intefaces";
 import { iUserRequest } from "../../../interfaces/user.interfaces";
 
 export const mockedUserAdmRequest: iUserRequest = {
@@ -49,6 +50,27 @@ export const mockedLoginNotAdmRequest: Omit<iUserRequest, "name" | "skills" | "t
   password: "123456",
 }
 
+export const mockedMusician1: iUserRequest = {
+  name: "Mario K.",
+  email: "mario@mail.com",
+  password: "SuperSafe123",
+  type: "musician",
+  skills: {
+    id: "ddb450d2-60e4-4508-92b6-6baa4f4d3860",
+  },
+};
 
+export const mockedBand1: iUserRequest = {
+  name: "Larissa L.",
+  email: "larissa@mail.com",
+  password: "SuperSafe123",
+  type: "band",
+  skills: {
+    id: "ddb450d2-60e4-4508-92b6-6baa4f4d3858",
+  },
+};
 
-
+export const mockedBand1Login: iLogin = {
+  email: "larissa@mail.com",
+  password: "SuperSafe123"
+};

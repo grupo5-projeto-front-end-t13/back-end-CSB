@@ -4,7 +4,6 @@ import { returnInviteSerializer } from "../../serializers/invite/invite.serializ
 
 
 export const userCreateInviteService = async(body: iInviteRequest) =>{
-  console.log(body)
   const newInvite = inviteRepository.create({userIdReceive: body.userIdReceive, userIdSend: body.userIdSend})
   await inviteRepository.save(newInvite)
   const returnNewInvite = await returnInviteSerializer.validate(newInvite, {stripUnknown: true})

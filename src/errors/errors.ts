@@ -15,13 +15,12 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
         return res.status(err.statusCode).json({ message: err.message })
     }
     if(err.message.includes("invalid input syntax")){
-        return res.status(404).json({message: "inválido"});
+        return res.status(404).json({ message: "inválido" });
     }
 
-    console.log("o erro é:" + err.message);
+    console.log(err.message);
 
     return res.status(500).json({ message: "Internal server error" });
-
 }
 
 export { AppError, errorHandler };

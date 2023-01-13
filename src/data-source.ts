@@ -16,7 +16,7 @@ const setDataSourceOptions = (): DataSourceOptions => {
       type: "sqlite",
       database: ":memory:",
       synchronize: true,
-      logging: true,
+      // logging: true,
       entities: ["src/entities/*.ts"]
     }
   }
