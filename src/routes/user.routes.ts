@@ -14,6 +14,7 @@ import { listMusiciansController } from "../controllers/user/listMusicians.contr
 import { validateAuthTokenMiddleware } from "../middlewares/validateAuthToken.middleware";
 import { validateIsAdm } from "../middlewares/validateIsAdm.middleware";
 import { validateUserPermissionMiddleware } from "../middlewares/validateUserPermission.middleware";
+import { listUserProfileController } from "../controllers/user/listUserProfile.controller";
 
 export const userRoutes = Router();
 
@@ -23,13 +24,34 @@ userRoutes.post(
   createUsersController
 );
 userRoutes.get("/band", validateAuthTokenMiddleware, listBandsController);
-userRoutes.get("/musician", validateAuthTokenMiddleware, listMusiciansController);
-userRoutes.get("", validateAuthTokenMiddleware, validateIsAdm, listAllUsersController);
+userRoutes.get(
+  "/musician",
+  validateAuthTokenMiddleware,
+  listMusiciansController
+);
+userRoutes.get(
+  "",
+  validateAuthTokenMiddleware,
+  validateIsAdm,
+  listAllUsersController
+);
+userRoutes.get(
+  "/profile",
+  validateAuthTokenMiddleware,
+  listUserProfileController
+);
 userRoutes.patch(
-  "/:id", validateAuthTokenMiddleware,
+  "/:id",
+  validateAuthTokenMiddleware,
   validateDataMiddleware(updateUserSerializer),
   validateIdMiddleware,
   validateUserPermissionMiddleware,
   userUpdateController
 );
-userRoutes.delete("/:id", validateAuthTokenMiddleware, validateIdMiddleware, validateUserPermissionMiddleware, deleteController);
+userRoutes.delete(
+  "/:id",
+  validateAuthTokenMiddleware,
+  validateIdMiddleware,
+  validateUserPermissionMiddleware,
+  deleteController
+);
