@@ -21,7 +21,6 @@ export const createUserSerializer: yup.SchemaOf<iUserRequest> = yup
       id: yup.string().uuid().required(),
       name: yup.string().notRequired(),
     }),
-    isAdm: yup.boolean().notRequired(),
   });
 
 export const userSerializer: yup.SchemaOf<iUser> = yup.object().shape({
@@ -99,7 +98,7 @@ export const createUserResponseSerializer: yup.SchemaOf<iUserCreateResponse> =
     createdAt: yup.date().notRequired(),
     updatedAt: yup.date().notRequired(),
   });
-  
+
 export const updateUserSerializer: yup.SchemaOf<iUserUpdateRequest> = yup
   .object()
   .shape({
