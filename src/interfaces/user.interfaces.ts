@@ -11,11 +11,7 @@ export interface iUserRequest {
   password: string;
   skills: iSkill;
   type: string;
-<<<<<<< HEAD
   isAdm?: boolean;
-=======
-  isAdm: boolean;
->>>>>>> 6e0ce3ef82f0e4378c2e5e923ce2231b7195c99c
 }
 
 export interface iUser {

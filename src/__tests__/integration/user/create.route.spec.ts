@@ -3,7 +3,7 @@ import { DataSource } from "typeorm";
 import app from "../../../app";
 import { AppDataSource } from "../../../data-source";
 import { userRepository } from "../../../repositories/userRepository";
-import { mockedUserInvalidBodyRequest, mockedUserInvalidBodyResponse, mockedUserRequest, mockedUserUniqueEmailResponse } from "../../mocks";
+import { mockedUserInvalidBodyRequest, mockedUserInvalidBodyResponse, mockedUserAdmRequest, mockedUserUniqueEmailResponse } from "../../mocks";
 
 
 describe("Create user route tests", ()=>{
@@ -26,7 +26,7 @@ describe("Create user route tests", ()=>{
   })
 
   it("Should be able to create user", async()=>{
-    const response = await request(app).post(baseUrl).send(mockedUserRequest);
+    const response = await request(app).post(baseUrl).send(mockedUserAdmRequest);
 
    expect(response.status).toBe(201)
    expect(response.body).toEqual(expect.objectContaining({id: expect.any(String)}))
@@ -57,6 +57,21 @@ describe("Create user route tests", ()=>{
     expect(amount).toBe(0)
   })
 
+
+it("Testando criação de usuário com e-mail já utilizado", async () => {
+  
+  const user  = userRepository.create(mockedUserAdmRequest)
+  await userRepository.save(user)
+  
+  const response = await request(app).post("/users").send(mockedUserAdmRequest);
+  
+  expect(response.status).toBe(409);
+  expect(response.body).toHaveProperty("message");
+  
+  // const [users, amount] = await userRepository.findAndCount()
+  // expect(amount).toBe(1)
+
+});
 
   // it("Should not be able to create user / unique user", async()=>{
 
