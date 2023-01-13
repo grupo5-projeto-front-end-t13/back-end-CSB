@@ -8,17 +8,18 @@ import { userRepository } from "../../../repositories/userRepository";
 describe ('Login route tests', () => {
   let conn: DataSource;
   const baseUrl: string = "/login"
+
   let tokenAdm = "";
   let tokenNotAdm = "";
 
-  beforeAll(async()=>{
+  beforeAll(async () => {
     await AppDataSource.initialize()
-    .then((res=> (conn = res)))
-    .catch((err)=> console.error(err))
+      .then((res) => (conn = res))
+      .catch((err) => console.error(err));
   });
 
-  afterAll(async()=>{
-    await conn.destroy()
+  afterAll(async () => {
+    await conn.destroy();
   });
 
   beforeEach(async()=> {
@@ -36,6 +37,7 @@ describe ('Login route tests', () => {
 
   it("should not authenticate with invalid credentials", async () => {
     await request(app).post("/users").send(mockedUserAdmRequest);
+
     const response = await request(app).post("/login").send({
       email: "bruno@gmail.com",
       password: "123",
@@ -44,6 +46,4 @@ describe ('Login route tests', () => {
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty("message");
   });
-
-  console.log(tokenAdm, tokenNotAdm)
 });

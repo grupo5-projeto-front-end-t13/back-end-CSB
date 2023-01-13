@@ -10,18 +10,21 @@ import { validateInviteIdMiddleware } from "../middlewares/validateInviteId.midd
 export const invitesRoutes = Router();
 
 invitesRoutes.get(
-  "/received/:id", validateAuthTokenMiddleware,
+  "/received/:id",
+  validateAuthTokenMiddleware,
   validateIdMiddleware,
   listUserReceivedInvitesController
 );
 invitesRoutes.get(
-  "/sended/:id", validateAuthTokenMiddleware,
+  "/sended/:id",
+  validateAuthTokenMiddleware,
   validateIdMiddleware,
   listUserSendedInvitesController
 );
 invitesRoutes.post("", validateAuthTokenMiddleware, createUserInviteController);
 invitesRoutes.delete(
-  "/:id", validateAuthTokenMiddleware,
+  "/:id",
+  validateAuthTokenMiddleware,
   validateInviteIdMiddleware,
   deleteInviteController
 );
