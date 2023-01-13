@@ -1,20 +1,14 @@
 import { DataSource } from "typeorm";
 import { AppDataSource } from "../../../data-source";
-import { userRepository } from "../../../repositories/userRepository";
-import {
-  mockedLoginNotAdmRequest,
-  mockedLoginAdmRequest,
-  mockedUserAdmRequest,
-  mockedUserNotAdmRequest,
-} from "../../mocks";
+import { mockedLoginAdmRequest, mockedUserAdmRequest } from "../../mocks"
 import request from "supertest";
 import app from "../../../app";
-import { compare } from "bcryptjs";
-import { skillRepository } from "../../../repositories/skillRepository";
+import { userRepository } from "../../../repositories/userRepository";
 
-describe("Authentication", () => {
+describe ('Login route tests', () => {
   let conn: DataSource;
-  const baseUrl: string = "/login";
+  const baseUrl: string = "/login"
+
   let tokenAdm = "";
   let tokenNotAdm = "";
 
@@ -28,61 +22,22 @@ describe("Authentication", () => {
     await conn.destroy();
   });
 
-  beforeEach(async () => {
-    const users = await userRepository.find();
-    await userRepository.remove(users);
-  });
-
-  it("should autheticate with valid credentials", async () => {
-    const skills = await request(app).get("/users");
-
-    const newUser = {
-      name: "bruno",
-      email: "bruno@gmail.com",
-      password: "123456",
-      skills: {
-        id: skills.body[0].id,
-      },
-      type: "band",
-      isAdm: true,
-    };
-
-    const user = userRepository.create(newUser);
-    await userRepository.save(user);
-
-    const response = await request(app)
-      .post(baseUrl)
-      .send(mockedLoginAdmRequest);
-
-    const compareHash = await compare("123456", user.password);
-
-    expect(compareHash).toBe(true);
-  });
-
-  it("Testando login válido", async () => {
-    const user = userRepository.create(mockedUserAdmRequest);
-    await userRepository.save(user);
-    const response = await request(app)
-      .post(baseUrl)
-      .send(mockedLoginAdmRequest);
+  beforeEach(async()=> {
+    const users = await userRepository.find()
+    await userRepository.remove(users)
+  })
+  
+  it('should authenticate with valid credentials', async() => {
+    await request(app).post("/users").send(mockedUserAdmRequest);
+    const response = await request(app).post(baseUrl).send(mockedLoginAdmRequest);
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("token");
-    expect(typeof response.body.token).toBe("string");
+  })
 
-    const notAdmLogin = await request(app)
-      .post("/login")
-      .send(mockedLoginNotAdmRequest);
-    tokenNotAdm = notAdmLogin.body.token;
-    tokenAdm = response.body.token;
-  });
+  it("should not authenticate with invalid credentials", async () => {
+    await request(app).post("/users").send(mockedUserAdmRequest);
 
-  test("Testando login inválido", async () => {
-    const user = userRepository.create(mockedUserAdmRequest);
-    await userRepository.save(user);
-    console.log(user);
-    const user1 = await userRepository.findOneBy({ id: user.id });
-    console.log(user1);
     const response = await request(app).post("/login").send({
       email: "bruno@gmail.com",
       password: "123",

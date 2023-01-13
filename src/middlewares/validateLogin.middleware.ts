@@ -8,11 +8,11 @@ export const loginMiddleware = async (req: Request, res: Response, next: NextFun
 
     const user = await userRepository.findOneBy({email: email});
 
-    if(!user) return res.status(403).json({ message: "Wrong email or password" });
+    if(!user) return res.status(401).json({ message: "Wrong email or password" });
 
     const passwordCompare = await compare(password, user.password);
 
-    if(!passwordCompare) return res.status(403).json({ message: "Wrong email or password" });
+    if(!passwordCompare) return res.status(401).json({ message: "Wrong email or password" });
 
     return next();
 }

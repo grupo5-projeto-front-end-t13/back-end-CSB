@@ -1,4 +1,3 @@
-import { mockedInviteRequest } from "./integration/invite.mock";
 import {
   mockedUserAdmRequest,
   mockedUserInvalidBodyRequest,
@@ -7,6 +6,9 @@ import {
   mockedLoginAdmRequest,
   mockedUserNotAdmRequest,
   mockedLoginNotAdmRequest,
+  mockedBand1,
+  mockedBand1Login,
+  mockedMusician1
 } from "./integration/user.mock";
 
 export {
@@ -15,7 +17,9 @@ export {
   mockedUserInvalidBodyRequest,
   mockedUserInvalidBodyResponse,
   mockedUserUniqueEmailResponse,
-  mockedInviteRequest,
   mockedLoginAdmRequest,
-  mockedLoginNotAdmRequest
+  mockedLoginNotAdmRequest,
+  mockedBand1,
+  mockedBand1Login,
+  mockedMusician1
 };

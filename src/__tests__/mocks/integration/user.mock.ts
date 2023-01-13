@@ -1,3 +1,4 @@
+import { iLogin } from "../../../interfaces/login.intefaces";
 import { iUserRequest } from "../../../interfaces/user.interfaces";
 
 export const mockedUserAdmRequest: iUserRequest = {
