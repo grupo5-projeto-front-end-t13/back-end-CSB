@@ -1,12 +1,10 @@
-import { AppDataSource } from "../../data-source";
-import User from "../../entities/user.entity";
 import { iUserBand } from "../../interfaces/user.interfaces";
+import { userRepository } from "../../repositories/userRepository";
 import { listUserBands } from "../../serializers/user/user.serializers";
 
 export const listBandsService = async (): Promise<iUserBand[]> => {
-  const bandRepository = AppDataSource.getRepository(User);
 
-  const bands = await bandRepository.find({
+  const bands = await userRepository.find({
     relations: {
       skills: true,
     },
