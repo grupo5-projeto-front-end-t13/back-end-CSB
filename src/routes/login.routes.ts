@@ -6,4 +6,9 @@ import { loginSerializer } from "../serializers/login/login.serializers";
 
 export const loginRoutes = Router();
 
-loginRoutes.post("", validateDataMiddleware(loginSerializer), loginMiddleware, loginController);
+loginRoutes.post(
+  "",
+  validateDataMiddleware(loginSerializer),
+  loginMiddleware,
+  loginController
+);

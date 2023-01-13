@@ -758,7 +758,8 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@^28.1.4":
+
+"@types/jest@^28.1.8":
   "integrity" "sha512-8TJkV++s7B6XqnDrzR1m/TT0A0h948Pnl/097veySPN67VRAgQ4gZ7n2KfJo2rVq6njQjdxU3GCCyDvAeuHoiw=="
   "resolved" "https://registry.npmjs.org/@types/jest/-/jest-28.1.8.tgz"
   "version" "28.1.8"
@@ -3600,7 +3601,7 @@
   "version" "4.6.0"
   dependencies:
     "swagger-ui-dist" ">=4.11.0"
-
+    
 "tar@^6.0.2", "tar@^6.1.11", "tar@^6.1.2":
   "integrity" "sha512-jdIBIN6LTIe2jqzay/2vtYLlBHa3JF42ot3h1dW8Q0PaAG4v8rm0cvpVePtau5C6OKXGGcgO9q2AMNSWxiLqKw=="
   "resolved" "https://registry.npmjs.org/tar/-/tar-6.1.13.tgz"
@@ -3681,7 +3682,8 @@
   "resolved" "https://registry.npmjs.org/tree-kill/-/tree-kill-1.2.2.tgz"
   "version" "1.2.2"
 
-"ts-jest@^28.0.5":
+
+"ts-jest@^28.0.8":
   "integrity" "sha512-5FaG0lXmRPzApix8oFG8RKjAz4ehtm8yMKOTy5HX3fY6W8kmvOrmcY0hKDElW52FJov+clhUbrKAqofnj4mXTg=="
   "resolved" "https://registry.npmjs.org/ts-jest/-/ts-jest-28.0.8.tgz"
   "version" "28.0.8"
