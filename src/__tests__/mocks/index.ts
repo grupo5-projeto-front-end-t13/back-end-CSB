@@ -1,5 +1,21 @@
 import { mockedInviteRequest } from "./integration/invite.mock";
-import { mockedUserRequest, mockedUserInvalidBodyRequest, mockedUserInvalidBodyResponse, mockedUserUniqueEmailResponse } from "./integration/user.mock";
+import {
+  mockedUserAdmRequest,
+  mockedUserInvalidBodyRequest,
+  mockedUserInvalidBodyResponse,
+  mockedUserUniqueEmailResponse,
+  mockedLoginAdmRequest,
+  mockedUserNotAdmRequest,
+  mockedLoginNotAdmRequest,
+} from "./integration/user.mock";
 
-
-export {mockedUserRequest, mockedUserInvalidBodyRequest, mockedUserInvalidBodyResponse, mockedUserUniqueEmailResponse, mockedInviteRequest}
+export {
+  mockedUserAdmRequest,
+  mockedUserNotAdmRequest,
+  mockedUserInvalidBodyRequest,
+  mockedUserInvalidBodyResponse,
+  mockedUserUniqueEmailResponse,
+  mockedInviteRequest,
+  mockedLoginAdmRequest,
+  mockedLoginNotAdmRequest
+};
