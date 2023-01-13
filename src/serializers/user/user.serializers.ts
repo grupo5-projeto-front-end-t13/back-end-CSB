@@ -98,7 +98,7 @@ export const createUserResponseSerializer: yup.SchemaOf<iUserCreateResponse> =
     createdAt: yup.date().notRequired(),
     updatedAt: yup.date().notRequired(),
   });
-  
+
 export const updateUserSerializer: yup.SchemaOf<iUserUpdateRequest> = yup
   .object()
   .shape({
