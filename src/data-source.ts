@@ -1,9 +1,9 @@
-import 'dotenv/config';
+import 'dotenv/config'
 import 'reflect-metadata';
 import path from "path";
 import { DataSource, DataSourceOptions } from "typeorm";
 
-const port = process.env.DB_PORT as number | undefined;
+const port = process.env.PGPORT as number | undefined;
 
 const setDataSourceOptions = (): DataSourceOptions => {
   const entitiesPath: string = path.join(__dirname, "./entities/**.{js,ts}");
@@ -16,6 +16,7 @@ const setDataSourceOptions = (): DataSourceOptions => {
       type: "sqlite",
       database: ":memory:",
       synchronize: true,
+      // logging: true,
       entities: ["src/entities/*.ts"]
     }
   }
@@ -25,7 +26,7 @@ const setDataSourceOptions = (): DataSourceOptions => {
     host: process.env.PGHOST,
     port: port,
     username: process.env.PGUSER,
-    password: process.env.PGPASSWORD,
+    password: String(process.env.PGPASSWORD),
     database: process.env.PGDATABASE,
     logging: true,
     synchronize: false,
