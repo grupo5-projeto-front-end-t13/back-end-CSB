@@ -1,12 +1,9 @@
-import { AppDataSource } from "../../data-source";
-import User from "../../entities/user.entity";
-import { AppError } from "../../errors/errors";
 import { iUserMusician } from "../../interfaces/user.interfaces";
+import { userRepository } from "../../repositories/userRepository";
 import { listUserMusician } from "../../serializers/user/user.serializers";
 
 export const listMusiciansService = async (): Promise<iUserMusician[]> => {
-  const userRepository = AppDataSource.getRepository(User);
-
+  
   const musicians = await userRepository.find({
     relations: {
       skills: true,
