@@ -1,0 +1,137 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API do complete sua banda",
+        "description": "Esse API tem como objeto de fazer o backend da aplicação complete sua banda",
+        "termsOfService": "",
+        "contact": {
+            "email": "fernandojunqueira12@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000",
+            "description": "API de desenvolvimento"
+        }
+    ],
+    "paths": {
+        "/users": {
+            "post": {
+                "summary": "Criação de uma nova banda",
+                "description": "Essa rota é responsável por cadastrar um novo usuário",
+                "tag": ["users"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                               "$ref": "#/components/schemas/UserBand"
+                            },
+                        "examples":{
+                            "UserBand": {
+                                "value": {
+                                    "name": "AC/DC",
+                                    "email": "acdc@mail.com",
+                                    "password": "123456",
+                                    "skills": {
+                                        "id": "0e8f6505-0dc3-418e-a066-f8b5e47f33e5"
+                                    },
+                                    "type": "band"
+                                }
+                            }
+                        }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "User already exists!"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/UserBandResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "UserBand": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "skills": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserBandResponse": {
+                "type": "object",
+                "properties": {
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "Date"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "Date"
+                    },
+                    "skills": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            } ,
+                            "name": {
+                                "type": "string",
+                                "example": "violonista"
+                            } 
+                        }
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            }
+        }
+    }
+
+}
