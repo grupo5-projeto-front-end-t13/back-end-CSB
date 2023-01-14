@@ -13,7 +13,6 @@ skillsRoutes.post(
   "/",
   validateAuthTokenMiddleware,
   validateIsAdm,
-  validateSkillIdMiddleware,
   createSkillsController
 );
 skillsRoutes.delete(

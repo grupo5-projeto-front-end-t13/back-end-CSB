@@ -44,4 +44,6 @@ describe("Delete user route tests", () => {
 
     expect(response.status).toBe(204);
   });
+
+  //teste se Adm ou dono pode deletar
 })
