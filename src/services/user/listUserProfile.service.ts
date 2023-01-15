@@ -1,11 +1,21 @@
 import { AppError } from "../../errors/errors";
-import { iUser } from "../../interfaces/user.interfaces";
+import {
+  iUserCreateResponse,
+  iUserRequest,
+} from "../../interfaces/user.interfaces";
 import { userRepository } from "../../repositories/userRepository";
+import { createUserResponseSerializer } from "../../serializers/user/user.serializers";
 
-export const listUserProfilesService = async (id: string): Promise<iUser> => {
+export const listUserProfilesService = async (
+  id: string
+): Promise<iUserCreateResponse> => {
   const user = await userRepository.findOneBy({ id });
 
   if (!user) throw new AppError(404, "User not found");
 
-  return user;
+  const validatedUser = createUserResponseSerializer.validate(user, {
+    stripUnknown: true,
+  });
+
+  return validatedUser;
 };
