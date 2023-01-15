@@ -19,6 +19,8 @@ export const createUsersService = async (
     id: data.skills.id,
   });
 
+  // if(!findSkill) throw new AppError(404, "Skill does not exists");
+
   const user = userRepository.create({
     ...rest,
     skills: {id: findSkill?.id},
