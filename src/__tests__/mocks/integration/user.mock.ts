@@ -74,7 +74,7 @@ export const mockedBand1: iUserRequest = {
   password: "SuperSafe123",
   type: "band",
   skills: {
-    id: "ddb450d2-60e4-4508-92b6-6baa4f4d3858"
+    id: "4e99808c-c06d-4109-9b95-1a2fef3f8ea7",
   },
 };
 

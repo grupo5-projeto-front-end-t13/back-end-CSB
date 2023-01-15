@@ -18,9 +18,9 @@
     "paths": {
         "/users": {
             "post": {
-                "summary": "Criação de uma nova banda",
+                "summary": "Criação de uma novo usuário",
                 "description": "Essa rota é responsável por cadastrar um novo usuário",
-                "tag": ["users"],
+                "tags": ["Users"],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -38,13 +38,36 @@
                                     },
                                     "type": "band"
                                 }
+                            },
+                            "UserMusician": {
+                                "value": {
+                                    "name": "Yamandu Costa",
+                                    "email": "yamandu@mail.com",
+                                    "password": "123456",
+                                    "skills": {
+                                        "id": "0e8f6505-0dc3-418e-a066-f8b5e47f33e5"
+                                    },
+                                    "type": "musician"
+                                }
+                            },
+                            "UserAdm": {
+                                "value": {
+                                    "name": "admin",
+                                    "email": "admin@mail.com",
+                                    "password": "123456",
+                                    "skills": {
+                                        "id": "0e8f6505-0dc3-418e-a066-f8b5e47f33e5"
+                                    },
+                                    "type": "band",
+                                    "isAdm": true
+                                }
                             }
                         }
                         }
                     }
                 },
                 "responses": {
-                    "400": {
+                    "409": {
                         "description": "User already exists!"
                     },
                     "200": {
@@ -55,6 +78,245 @@
                                     "type": "object",
                                     "$ref": "#/components/schemas/UserBandResponse"
                                 }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Lista todos os usuários",
+                "description": "Essa rota lista dos usuários cadastrados",
+                "tags": ["Users"],
+                "security": [{"bearerAuth": []}],
+                "responses": {
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserBandResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}": {
+            "patch": {
+                "summary": "Atualização de uma usuário existente",
+                "description": "Essa rota faz a atualização do usuário",
+                "tags": ["Users"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUser"
+                            },
+                            "examples": {
+                                "UpdateUserBand": {
+                                    "value": {
+                                        "name": "AC/DC",
+                                        "email": "acdc@mail.com",
+                                        "genre": "rock",
+                                        "password": "123456",
+                                        "bio": "é uma banda australiana de rock formada em Sydney, Austrália em 1973, pelos irmãos escoceses Malcolm e Angus Young.",
+                                        "state": "AU",
+                                        "social_media":"ACDC/linkdIn",
+                                        "image":"https://akamai.sscdn.co/uploadfile/letras/fotos/c/9/f/0/c9f02cc277bd0ad7d76eadd8f546f1f8.jpg",
+                                        "skills": {
+                                            "id": "0e8f6505-0dc3-418e-a066-f8b5e47f33e5"
+                                        },
+                                        "type": "band"
+                                    }
+                                },
+                                "UpdateUserMusician": {
+                                    "value": {
+                                        "name": "Fernando",
+                                        "email": "fernando@mail.com",
+                                        "username": "Lima",
+                                        "password": "123456",
+                                        "bio": "Descrição do músico",
+                                        "state": "SC",
+                                        "social_media":"fernando/linkdIn",
+                                        "image":"https://akamai.sscdn.co/uploadfile/letras/fotos/c/9/f/0/c9f02cc277bd0ad7d76eadd8f546f1f8.jpg",
+                                        "skills": {
+                                            "id": "0e8f6505-0dc3-418e-a066-f8b5e47f33e5"
+                                        },
+                                        "type": "musician"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Missing authorization headers / User can just update/delete himself"
+                    },
+                    "404": {
+                        "description": "Invalid Id"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/UserBandResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "summary": "Atualização de uma usuário existente",
+                "description": "Essa rota faz a atualização do usuário",
+                "tags": ["Users"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Missing authorization headers / User can just update/delete himself"
+                    },
+                    "404": {
+                        "description": "Invalid Id"
+                    },
+                    "204": {
+                        "description": "No content"
+                    }
+                }
+            }
+        },
+        "/users/band": {
+            "get": {
+                "summary":"Lista todas bandas",
+                "description": "Essa rota lista todas as bandas cadastradas",
+                "tags": ["Users"],
+                "security": [{"bearerAuth": []}],
+                "responses": {
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/UserBandResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/musician": {
+            "get": {
+                "summary":"Lista todos os musicos",
+                "description": "Essa rota lista todos os musicos cadastrados",
+                "tags": ["Users"],
+                "security": [{"bearerAuth": []}],
+                "responses": {
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/UserBandResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "Responsável por fazer o login",
+                "description": "Essa será a rota que fará o login e vai gerar o token",
+                "tags": ["Login"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Login"
+                            },
+                        "examples": {
+                            "loginBand": {
+                                "value": {
+                                    "email": "acdc@mail.com",
+                                    "password": "123456"
+                                }
+                            },
+                            "loginMusician": {
+                                "value": {
+                                    "email": "fernando@mail.com",
+                                    "password": "123456"
+                                }
+                            },
+                            "loginAdm": {
+                                "value": {
+                                    "email": "admin@mail.com",
+                                    "password": "123456"
+                                }
+                            }
+                        }
+                        }
+                    }
+                },
+                "responses": {
+                    "403": {
+                        "description": "Wrong email or password"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiYmFuZCIsImlzQWRtIjpmYWxzZSwiaWF0IjoxNjczNTMzNjExLCJleHAiOjE2NzM2MjAwMTEsInN1YiI6IjI1MDI2ZjRhLWNmNzMtNGUyZS1iOWM3LWVjNWUxNDY0ZTdlYyJ9.kRTxJC5d1HNu_n7UmK2vKojbsXK7JgtRoRxs-Upx4iA"
+                                        }
+                                    
                             }
                         }
                     }
@@ -130,6 +392,251 @@
                         "format": "uuid"
                     }
                 }
+            },          
+            "UserMusician": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "skills": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserAdm": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "skills": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "isAdm": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "UserMusicianResponse": {
+                "type": "object",
+                "properties": {
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "Date"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "Date"
+                    },
+                    "skills": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            } ,
+                            "name": {
+                                "type": "string",
+                                "example": "violonista"
+                            } 
+                        }
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            },
+            "UpdateUser": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "genre": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "bio": {
+                        "type": "string"
+                    },
+                    "state": {
+                        "type": "string"
+                    },
+                    "social_media": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "skills": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateUserBand": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "genre": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "bio": {
+                        "type": "string"
+                    },
+                    "state": {
+                        "type": "string"
+                    },
+                    "social_media": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "skills": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateUserMusician": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "bio": {
+                        "type": "string"
+                    },
+                    "state": {
+                        "type": "string"
+                    },
+                    "social_media": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "skills": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Login": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            }  
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "Bearer",
+                "bearerFormat": "JWT"
             }
         }
     }
