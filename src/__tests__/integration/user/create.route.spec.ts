@@ -3,7 +3,7 @@ import { DataSource } from "typeorm";
 import app from "../../../app";
 import { AppDataSource } from "../../../data-source";
 import { userRepository } from "../../../repositories/userRepository";
-import { mockedUserInvalidBodyRequest, mockedUserInvalidBodyResponse, mockedUserAdmRequest, mockedUserUniqueEmailResponse, mockedUserNotAdmRequest, mockedLoginAdmRequest, mockedLoginNotAdmRequest } from "../../mocks";
+import { mockedUserInvalidBodyRequest, mockedUserInvalidBodyResponse, mockedUserAdmRequest, mockedUserUniqueEmailResponse, mockedUserNotAdmRequest, mockedLoginAdmRequest } from "../../mocks";
 
 describe("Create user route tests", () => {
   let conn: DataSource;
@@ -24,19 +24,6 @@ describe("Create user route tests", () => {
     await userRepository.remove(users)
   })
 
-  it("Should be able to create user", async() => {
-    const response = await request(app).post(baseUrl).send(mockedUserNotAdmRequest);
-
-   expect(response.status).toBe(201)
-   expect(response.body).toEqual(expect.objectContaining({id: expect.any(String)}))
-   expect(response.body).toEqual(expect.objectContaining({createdAt: expect.any(String)}))
-   expect(response.body).toEqual(expect.objectContaining({updatedAt: expect.any(String)}))
-   expect(response.body).not.toHaveProperty("password")
-
-    const [users, amount] = await userRepository.findAndCount()
-    expect(amount).toBe(1)
-  })
-
   it("Should not be able to create user", async() => {
     const response = await request(app).post(baseUrl).send(mockedUserInvalidBodyRequest);
 
@@ -50,6 +37,31 @@ describe("Create user route tests", () => {
   
     const [users, amount] = await userRepository.findAndCount()
     expect(amount).toBe(0)
+  })
+
+  it("Should be able create user", async() => {
+    const userAdm = await request(app).post(baseUrl).send(mockedUserAdmRequest);
+    const loginAdm = await request(app).post("/login").send(mockedLoginAdmRequest);
+    const createSkill = await request(app).post("/skills").send({name: "Guitarrista"}).set("Authorization", `Bearer ${loginAdm.body.token}`);
+    const findSkill = await request(app).get("/skills");
+
+    const response = await request(app).post(baseUrl).send({
+      name: "bruno2",
+      email: "bruno2@gmail.com",
+      password: "123456",
+      type: "band", 
+      skills: {id: findSkill.body[0].id}
+    })
+  
+    expect(response.status).toBe(201)
+    expect(response.body).toHaveProperty("name")
+    expect(response.body).toHaveProperty("email")
+    expect(response.body).toHaveProperty("type")
+    expect(response.body.skills).toEqual(expect.objectContaining({id: expect.any(String)}))
+    expect(response.body).toEqual(expect.objectContaining({id: expect.any(String)}))
+    expect(response.body).toEqual(expect.objectContaining({createdAt: expect.any(String)}))
+    expect(response.body).toEqual(expect.objectContaining({updatedAt: expect.any(String)}))
+    expect(response.body).not.toHaveProperty("password")
   })
 
   it("Should not be able to create user / unique user", async () => {
