@@ -4,7 +4,7 @@ import app from "../../../app";
 import { AppDataSource } from "../../../data-source";
 import { inviteRepository } from "../../../repositories/inviteRepository";
 import { userRepository } from "../../../repositories/userRepository";
-import { mockedBand1, mockedBand1Login, mockedMusician1, mockedMusician1Login } from "../../mocks";
+import { mockedBand1, mockedBand1Login, mockedMusician1,mockedUserNotAdmRequest,mockedLoginNotAdmRequest,mockedUserAdmRequest,mockedLoginAdmRequest } from "../../mocks";
 
 describe("Create invite route tests", ()=>{
   let conn: DataSource;
@@ -39,6 +39,21 @@ describe("Create invite route tests", ()=>{
 
   })
 
+  it("adm should be able to delete invites that not own", async()=>{
+    const user1 = await request(app).post("/users").send(mockedBand1);
+    const user2 = await request(app).post("/users").send(mockedMusician1); 
+    const userAdm = await request(app).post("/users").send(mockedUserAdmRequest);
+
+    const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
+    const loginAdm = await request(app).post("/login").send(mockedLoginAdmRequest);
+
+    const invite = await request(app).post(baseUrl).send({userIdSend: {id: user2.body.id},
+    userIdReceive: {id: user1.body.id}},).set("Authorization", `Bearer ${loginUser1.body.token}`);
+    const response = await request(app).delete(`${baseUrl}/${invite.body.id}`).set("Authorization", `Bearer ${loginAdm.body.token}`)
+
+    expect(response.status).toBe(204)
+  })
+
   it("should not be able to delete invites without token", async()=>{
     const user1 = await request(app).post("/users").send(mockedBand1);
     const user2 = await request(app).post("/users").send(mockedMusician1);
@@ -62,4 +77,19 @@ describe("Create invite route tests", ()=>{
 
   })
 
+  it("should not be able to delete invites if not owner or adm", async()=>{
+    const user1 = await request(app).post("/users").send(mockedBand1);
+    const user2 = await request(app).post("/users").send(mockedMusician1); 
+    const userNotAdm = await request(app).post("/users").send(mockedUserNotAdmRequest);
+
+    const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
+    const loginNotAdm = await request(app).post("/login").send(mockedLoginNotAdmRequest);
+
+    const invite = await request(app).post(baseUrl).send({userIdSend: {id: user2.body.id},
+      userIdReceive: {id: user1.body.id}},).set("Authorization", `Bearer ${loginUser1.body.token}`);
+    const response = await request(app).delete(`${baseUrl}/${invite.body.id}`).set("Authorization", `Bearer ${loginNotAdm.body.token}`)
+
+    expect(response.status).toBe(401)
+    expect(response.body).toHaveProperty("message")
+  })
 })
