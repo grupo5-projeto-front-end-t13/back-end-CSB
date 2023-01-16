@@ -45,7 +45,7 @@
                                     "email": "yamandu@mail.com",
                                     "password": "123456",
                                     "skills": {
-                                        "id": "0e8f6505-0dc3-418e-a066-f8b5e47f33e5"
+                                        "id": "97f23b77-2f82-4d84-ad89-9103d186bc31"
                                     },
                                     "type": "musician"
                                 }
@@ -317,6 +317,142 @@
                                             "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiYmFuZCIsImlzQWRtIjpmYWxzZSwiaWF0IjoxNjczNTMzNjExLCJleHAiOjE2NzM2MjAwMTEsInN1YiI6IjI1MDI2ZjRhLWNmNzMtNGUyZS1iOWM3LWVjNWUxNDY0ZTdlYyJ9.kRTxJC5d1HNu_n7UmK2vKojbsXK7JgtRoRxs-Upx4iA"
                                         }
                                     
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/invites/sended": {
+            "post": {
+                "summary": "Responsável por enviar um convite",
+                "description": "Essa será a rota que fará o convite tanto de musico para banda quanto o inverso",
+                "tags": ["Invites"],
+                "security": [{"bearerAuth": []}],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Invites"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Missing authorization headers"
+                    },
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/InvitesResponse"
+                                }           
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/invites/{userId}": {
+            "delete":{
+                "summary": "Deleta um usuário existente",
+                "description": "Essa rota faz a deleção de um usuário",
+                "tags": ["Invites"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Missing authorization headers / User can just update / delete himself"
+                    },
+                    "404": {
+                        "description": "Invalid Id"
+                    },
+                    "204": {
+                        "description": "No content"
+                    }
+                }
+            }
+        },
+        "/invites/received/{userId}": {
+            "get": {
+                "summary":"Lista todos os convites do usuário dono do ID",
+                "description": "Essa rota lista todos os convites",
+                "tags": ["Invites"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Invalid Id"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/InvitesResponseGet"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/invites/sended/{userId}": {
+            "get": {
+                "summary":"Lista todos os convites do usuário dono do ID",
+                "description": "Essa rota lista todos os convites",
+                "tags": ["Invites"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Invalid Id"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/InvitesResponseGet"
+                                }
                             }
                         }
                     }
@@ -630,7 +766,76 @@
                         "type": "string"
                     }
                 }
-            }  
+            },
+            "Invites": {
+                "type": "object",
+                "properties": {
+
+                    "userIdReceive": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "userIdSend": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    }
+                }
+            },
+            "InvitesResponse": {
+                "type": "object",
+                "properties": {
+
+                    "userIdReceive": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "userIdSend": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "Date"
+                    }
+                }
+            },
+            "InvitesResponseGet": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "Date"
+                    }
+                }
+            }
         },
         "securitySchemes": {
             "bearerAuth": {
