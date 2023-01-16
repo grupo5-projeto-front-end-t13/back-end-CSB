@@ -3,6 +3,7 @@ import { DataSource } from "typeorm";
 import app from "../../../app";
 import { AppDataSource } from "../../../data-source";
 import { inviteRepository } from "../../../repositories/inviteRepository";
+import { userRepository } from "../../../repositories/userRepository";
 import { mockedBand1, mockedBand1Login, mockedMusician1 } from "../../mocks";
 
 describe("Create invite route tests", ()=>{
@@ -22,6 +23,8 @@ describe("Create invite route tests", ()=>{
   beforeEach(async()=> {
     const invites = await inviteRepository.find()
     await inviteRepository.remove(invites)
+    const users = await userRepository.find()
+    await userRepository.remove(users)
   })
 
   it("Should be able to create a invite", async()=>{
