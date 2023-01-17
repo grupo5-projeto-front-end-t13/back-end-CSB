@@ -263,8 +263,135 @@
                 }
             }
         },
-        "users/verify/{userId}": {
-            
+        "users/verify/{userId}": {     
+            "get": {
+                "summary":"Faz a verificação do usuário",
+                "description": "Essa rota é responsável por fazer a verificação de um novo usuário cadastrado",
+                "tags": ["Users"],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Could not verify user"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/VerifyResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "users/resendemail/{userId}": {     
+            "get": {
+                "summary":"Faz o reenvio do link de verificação",
+                "description": "Essa rota é responsável por fazer o reenvio do email de verificação",
+                "tags": ["Users"],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid id"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/ResendResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/forgotpassword": {
+            "post": {
+                "summary": "Reevio de email para fazer uma nova senha",
+                "description": "Essa rota é responsável por enviar o email com o código para o usuário refazer sua senha",
+                "tags": ["Users"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                               "$ref": "#/components/schemas/ForgotResponse"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "User is not verified"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ForgotRequest"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/resetpass": {
+            "post": {
+                "summary": "Faz uma nova senha",
+                "description": "Essa rota é responsável por atualizar uma senha de um usuário já existente.",
+                "tags": ["Users"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                               "$ref": "#/components/schemas/ResetRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Could not reset user password"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ResetResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         },
         "/login": {
             "post": {
@@ -944,6 +1071,64 @@
                     "name": {
                         "type": "string",
                         "example": "Saxofonista"
+                    }
+                }
+            },
+            "VerifyResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "User successfully verified"
+                    }
+                }
+            },
+            "ResendResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Successfully Resend"
+                    }
+                }
+            },
+            "ForgotResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "You will recieved a email with a code."
+                    }
+                }
+            },
+            "ForgotRequest": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    }
+                }
+            },
+            "ResetRequest": {
+                "type": "object",
+                "properties": {
+                    "password": {
+                        "type": "string",
+                        "format": "password"
+                    },
+                    "code": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            },
+            "ResetResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Successfully updated password"
                     }
                 }
             }
