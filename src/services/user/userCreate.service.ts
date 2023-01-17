@@ -23,6 +23,7 @@ export const createUsersService = async (
 
   const user = userRepository.create({
     ...rest,
+    isAdm,
     skills: { id: findSkill?.id },
   });
 
