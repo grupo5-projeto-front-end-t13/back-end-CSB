@@ -60,6 +60,6 @@ userRoutes.delete(
   deleteController
 );
 userRoutes.get("/verify/:id", userVerifyController);
-userRoutes.get("/resendEmail", resendVerifyEmailController);
+userRoutes.get("/resendemail/:id", resendVerifyEmailController);
 userRoutes.post("/forgotpassword", userForgotPassController);
 userRoutes.post("/resetpass", userResetPassController);
