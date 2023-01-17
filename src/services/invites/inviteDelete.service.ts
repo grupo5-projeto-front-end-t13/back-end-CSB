@@ -11,7 +11,6 @@ export const deleteInviteService = async (
     .leftJoinAndSelect("invites.userIdReceive", "receiver")
     .leftJoinAndSelect("invites.userIdSend", "sender")
     .getOne();
-
   if (
     !(
       user.id == invite?.userIdReceive.id ||

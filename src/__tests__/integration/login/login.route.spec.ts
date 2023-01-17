@@ -9,9 +9,6 @@ describe ('Login route tests', () => {
   let conn: DataSource;
   const baseUrl: string = "/login"
 
-  let tokenAdm = "";
-  let tokenNotAdm = "";
-
   beforeAll(async () => {
     await AppDataSource.initialize()
       .then((res) => (conn = res))

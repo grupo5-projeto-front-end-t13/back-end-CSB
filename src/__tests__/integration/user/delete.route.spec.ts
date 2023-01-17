@@ -35,6 +35,17 @@ describe("Delete user route tests", () => {
     expect(response.body).toHaveProperty("message");
   });
 
+  it("Should not be able to delete a invalid user", async() => {
+    await request(app).post(baseUrl).send(mockedUserAdmRequest);
+    const loginResponse = await request(app).post("/login").send(mockedLoginAdmRequest);
+    const deletedUser = await request(app).get(baseUrl).set("Authorization", `Bearer ${loginResponse.body.token}`);
+    
+    const response = await request(app).delete(`${baseUrl}/4e99808c-c06d-4109-9b95-1a2fef3f8ea7}`).set("Authorization", `Bearer ${loginResponse.body.token}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty("message");
+  });
+
   it("Should be able to delete user", async() => {
     await request(app).post(baseUrl).send(mockedUserAdmRequest);
     const loginResponse = await request(app).post("/login").send(mockedLoginAdmRequest);
@@ -44,6 +55,6 @@ describe("Delete user route tests", () => {
 
     expect(response.status).toBe(204);
   });
-
+  
   //teste se Adm ou dono pode deletar
 })
