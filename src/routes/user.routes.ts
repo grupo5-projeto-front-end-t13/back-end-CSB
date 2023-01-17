@@ -15,6 +15,10 @@ import { validateAuthTokenMiddleware } from "../middlewares/validateAuthToken.mi
 import { validateIsAdm } from "../middlewares/validateIsAdm.middleware";
 import { validateUserPermissionMiddleware } from "../middlewares/validateUserPermission.middleware";
 import { listUserProfileController } from "../controllers/user/listUserProfile.controller";
+import { userVerifyController } from "../controllers/user/userVerify.controller";
+import { userForgotPassController } from "../controllers/user/userForgotPass.controller";
+import { userResetPassController } from "../controllers/user/userResetPass.controller";
+import { resendVerifyEmailController } from "../controllers/user/resendVerifyEmail.controller";
 
 export const userRoutes = Router();
 
@@ -55,3 +59,7 @@ userRoutes.delete(
   validateUserPermissionMiddleware,
   deleteController
 );
+userRoutes.get("/verify/:id",userVerifyController)
+userRoutes.get("/resendemail/:id",resendVerifyEmailController)
+userRoutes.post("/forgotpassword",userForgotPassController)
+userRoutes.post("/resetpass",userResetPassController)

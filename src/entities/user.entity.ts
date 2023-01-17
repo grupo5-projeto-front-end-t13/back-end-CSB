@@ -59,6 +59,9 @@ export default class User {
   @Column({ default: false })
   isAdm: boolean;
 
+  @Column({ default: false })
+  verified: boolean;
+
   @ManyToOne(() => Skill)
   skills: Skill;
 
