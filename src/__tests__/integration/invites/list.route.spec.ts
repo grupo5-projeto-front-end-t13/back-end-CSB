@@ -8,19 +8,19 @@ import { mockedBand1, mockedBand1Login, mockedMusician1 } from "../../mocks";
 
 describe("List invite route tests", () => {
   let conn: DataSource;
-  const baseUrl: string = "/invites"
+  const baseUrl: string = "/invites";
 
   beforeAll(async () => {
     await AppDataSource.initialize()
-    .then((res=> (conn = res)))
-    .catch((err)=> console.error(err))
+      .then((res) => (conn = res))
+      .catch((err) => console.error(err));
   });
 
   afterAll(async () => {
-    await conn.destroy()
+    await conn.destroy();
   });
 
-  beforeEach(async () =>  {
+  beforeEach(async () => {
     const invites = await inviteRepository.find();
     await inviteRepository.remove(invites);
     const users = await userRepository.find();
@@ -31,9 +31,16 @@ describe("List invite route tests", () => {
     const user1 = await request(app).post("/users").send(mockedBand1);
     const user2 = await request(app).post("/users").send(mockedMusician1);
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
-    const invite = await request(app).post(baseUrl).send({userIdSend: {id: user2.body.id},
-      userIdReceive: {id: user1.body.id}},).set("Authorization", `Bearer ${loginUser1.body.token}`);
-    const response = await request(app).get(`${baseUrl}/received/${user1.body.id}`).set("Authorization", `Bearer ${loginUser1.body.token}`);
+    const invite = await request(app)
+      .post(baseUrl)
+      .send({
+        userIdSend: { id: user2.body.id },
+        userIdReceive: { id: user1.body.id },
+      })
+      .set("Authorization", `Bearer ${loginUser1.body.token}`);
+    const response = await request(app)
+      .get(`${baseUrl}/received/${user1.body.id}`)
+      .set("Authorization", `Bearer ${loginUser1.body.token}`);
 
     expect(response.status).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
@@ -44,9 +51,16 @@ describe("List invite route tests", () => {
     const user1 = await request(app).post("/users").send(mockedBand1);
     const user2 = await request(app).post("/users").send(mockedMusician1);
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
-    const invite = await request(app).post(baseUrl).send({userIdSend: {id: user2.body.id},
-      userIdReceive: {id: user1.body.id}},).set("Authorization", `Bearer ${loginUser1.body.token}`);
-    const response = await request(app).get(`${baseUrl}/received/${user1.body.id}`);
+    const invite = await request(app)
+      .post(baseUrl)
+      .send({
+        userIdSend: { id: user2.body.id },
+        userIdReceive: { id: user1.body.id },
+      })
+      .set("Authorization", `Bearer ${loginUser1.body.token}`);
+    const response = await request(app).get(
+      `${baseUrl}/received/${user1.body.id}`
+    );
 
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty("message");
@@ -56,9 +70,16 @@ describe("List invite route tests", () => {
     const user1 = await request(app).post("/users").send(mockedBand1);
     const user2 = await request(app).post("/users").send(mockedMusician1);
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
-    const invite = await request(app).post(baseUrl).send({userIdSend: {id: user1.body.id},
-      userIdReceive: {id: user2.body.id}},).set("Authorization", `Bearer ${loginUser1.body.token}`);
-    const response = await request(app).get(`${baseUrl}/sended/${user1.body.id}`).set("Authorization", `Bearer ${loginUser1.body.token}`);
+    const invite = await request(app)
+      .post(baseUrl)
+      .send({
+        userIdSend: { id: user1.body.id },
+        userIdReceive: { id: user2.body.id },
+      })
+      .set("Authorization", `Bearer ${loginUser1.body.token}`);
+    const response = await request(app)
+      .get(`${baseUrl}/sended/${user1.body.id}`)
+      .set("Authorization", `Bearer ${loginUser1.body.token}`);
 
     expect(response.status).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
@@ -68,26 +89,40 @@ describe("List invite route tests", () => {
   it("should not be able to list sended invites withoud token", async () => {
     const user1 = await request(app).post("/users").send(mockedBand1);
     const user2 = await request(app).post("/users").send(mockedMusician1);
-    const loginUser1 = await request(app).post("/login").send(mockedBand1Login)
-    const invite = await request(app).post(baseUrl).send({userIdSend: {id: user1.body.id},
-      userIdReceive: {id: user2.body.id}},).set("Authorization", `Bearer ${loginUser1.body.token}`);
-    const response = await request(app).get(`${baseUrl}/sended/${user1.body.id}`)
+    const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
+    const invite = await request(app)
+      .post(baseUrl)
+      .send({
+        userIdSend: { id: user1.body.id },
+        userIdReceive: { id: user2.body.id },
+      })
+      .set("Authorization", `Bearer ${loginUser1.body.token}`);
+    const response = await request(app).get(
+      `${baseUrl}/sended/${user1.body.id}`
+    );
 
-    expect(response.status).toBe(401)
-    expect(response.body).toHaveProperty("message")
-  })
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");
+  });
 
   it("should not be able to list with invalid id", async () => {
     const user1 = await request(app).post("/users").send(mockedBand1);
     const user2 = await request(app).post("/users").send(mockedMusician1);
-    const loginUser1 = await request(app).post("/login").send(mockedBand1Login)
-    const invite = await request(app).post(baseUrl).send({userIdSend: {id: user1.body.id},
-      userIdReceive: {id: user2.body.id}},).set("Authorization", `Bearer ${loginUser1.body.token}`).set("Authorization", `Bearer ${loginUser1.body.token}`);
-    
-    const response = await request(app).get(`${baseUrl}/sended/${"4e99808c-c06d-4109-9b95-1a2fef3f8ea7"}`).set("Authorization", `Bearer ${loginUser1.body.token}`)
+    const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
+    const invite = await request(app)
+      .post(baseUrl)
+      .send({
+        userIdSend: { id: user1.body.id },
+        userIdReceive: { id: user2.body.id },
+      })
+      .set("Authorization", `Bearer ${loginUser1.body.token}`)
+      .set("Authorization", `Bearer ${loginUser1.body.token}`);
 
-    expect(response.status).toBe(404)
-    expect(response.body).toHaveProperty("message")
-  })
+    const response = await request(app)
+      .get(`${baseUrl}/sended/${"4e99808c-c06d-4109-9b95-1a2fef3f8ea7"}`)
+      .set("Authorization", `Bearer ${loginUser1.body.token}`);
 
-})
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty("message");
+  });
+});

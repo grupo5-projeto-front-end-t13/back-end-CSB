@@ -7,54 +7,72 @@ import { mockedUserAdmRequest, mockedLoginAdmRequest } from "../../mocks";
 
 describe("Delete user route tests", () => {
   let conn: DataSource;
-  const baseUrl: string = "/users"
+  const baseUrl: string = "/users";
 
-  beforeAll(async()=>{
+  beforeAll(async () => {
     await AppDataSource.initialize()
-    .then((res=> (conn = res)))
-    .catch((err)=> console.error(err))
+      .then((res) => (conn = res))
+      .catch((err) => console.error(err));
   });
 
-  afterAll(async()=>{
-    await conn.destroy()
+  afterAll(async () => {
+    await conn.destroy();
   });
 
-  beforeEach(async()=> {
-    const users = await userRepository.find()
-    await userRepository.remove(users)
-  })
+  beforeEach(async () => {
+    const users = await userRepository.find();
+    await userRepository.remove(users);
+  });
 
-  it("Should not be able to delete user without authentication", async() => {
+  it("Should not be able to delete user without authentication", async () => {
     await request(app).post(baseUrl).send(mockedUserAdmRequest);
-    const loginResponse = await request(app).post("/login").send(mockedLoginAdmRequest);
-    const deletedUser = await request(app).get(baseUrl).set("Authorization", `Bearer ${loginResponse.body.token}`);
-    
-    const response = await request(app).delete(`${baseUrl}/${deletedUser.body[0].id}`);
+    const loginResponse = await request(app)
+      .post("/login")
+      .send(mockedLoginAdmRequest);
+    const deletedUser = await request(app)
+      .get(baseUrl)
+      .set("Authorization", `Bearer ${loginResponse.body.token}`);
+
+    const response = await request(app).delete(
+      `${baseUrl}/${deletedUser.body[0].id}`
+    );
 
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty("message");
   });
 
-  it("Should not be able to delete a invalid user", async() => {
+  it("Should not be able to delete a invalid user", async () => {
     await request(app).post(baseUrl).send(mockedUserAdmRequest);
-    const loginResponse = await request(app).post("/login").send(mockedLoginAdmRequest);
-    const deletedUser = await request(app).get(baseUrl).set("Authorization", `Bearer ${loginResponse.body.token}`);
-    
-    const response = await request(app).delete(`${baseUrl}/4e99808c-c06d-4109-9b95-1a2fef3f8ea7}`).set("Authorization", `Bearer ${loginResponse.body.token}`);
+    const loginResponse = await request(app)
+      .post("/login")
+      .send(mockedLoginAdmRequest);
+    const deletedUser = await request(app)
+      .get(baseUrl)
+      .set("Authorization", `Bearer ${loginResponse.body.token}`);
+
+    const response = await request(app)
+      .delete(`${baseUrl}/4e99808c-c06d-4109-9b95-1a2fef3f8ea7}`)
+      .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty("message");
   });
 
-  it("Should be able to delete user", async() => {
+  it("Should be able to delete user", async () => {
     await request(app).post(baseUrl).send(mockedUserAdmRequest);
-    const loginResponse = await request(app).post("/login").send(mockedLoginAdmRequest);
-    const deletedUser = await request(app).get(baseUrl).set("Authorization", `Bearer ${loginResponse.body.token}`);
-    
-    const response = await request(app).delete(`${baseUrl}/${deletedUser.body[0].id}`).set("Authorization", `Bearer ${loginResponse.body.token}`);
+    const loginResponse = await request(app)
+      .post("/login")
+      .send(mockedLoginAdmRequest);
+    const deletedUser = await request(app)
+      .get(baseUrl)
+      .set("Authorization", `Bearer ${loginResponse.body.token}`);
+
+    const response = await request(app)
+      .delete(`${baseUrl}/${deletedUser.body[0].id}`)
+      .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
     expect(response.status).toBe(204);
   });
-  
+
   //teste se Adm ou dono pode deletar
-})
+});
