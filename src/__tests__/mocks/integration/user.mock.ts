@@ -1,5 +1,8 @@
 import { iLogin } from "../../../interfaces/login.intefaces";
-import { iUserRequest, iUserUpdateRequest } from "../../../interfaces/user.interfaces";
+import {
+  iUserRequest,
+  iUserUpdateRequest,
+} from "../../../interfaces/user.interfaces";
 
 export const mockedUserAdmRequest: iUserRequest = {
   name: "bruno",
@@ -80,7 +83,7 @@ export const mockedBand1: iUserRequest = {
 
 export const mockedBand1Login: iLogin = {
   email: "larissa@mail.com",
-  password: "SuperSafe123"
+  password: "SuperSafe123",
 };
 
 export const mockedUserUpdateRequest: iUserUpdateRequest = {

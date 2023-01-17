@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { userVerifyService } from "../../services/user/userVerify.service";
 
-export const userVerifyController = async (req:Request,res:Response)=>{
-    const id:string = req.params.id
-    const message = await userVerifyService(id)
+export const userVerifyController = async (req: Request, res: Response) => {
+  const id = req.params.id;
 
-    return res.status(200).json(message)
-}
+  const data = await userVerifyService(id);
+
+  return res.status(200).json(data);
+};

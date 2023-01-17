@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { deleteSkillsService } from "../../services/skills/delete.service";
+import { deleteSkillsService } from "../../services/skills/deleteSkill.service";
 
 export const deleteSkillController = async (req: Request, res: Response) => {
   const id = req.params.id;

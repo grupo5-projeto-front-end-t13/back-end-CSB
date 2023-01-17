@@ -6,6 +6,7 @@ import { createUserInviteController } from "../controllers/invites/userCreateInv
 import { validateAuthTokenMiddleware } from "../middlewares/validateAuthToken.middleware";
 import { validateIdMiddleware } from "../middlewares/validateId.middleware";
 import { validateInviteIdMiddleware } from "../middlewares/validateInviteId.middleware";
+import { validateDeleteInvitesPermissionMiddleware } from "../middlewares/validateDeleteInvitesPermission.middleware";
 
 export const invitesRoutes = Router();
 
@@ -26,5 +27,6 @@ invitesRoutes.delete(
   "/:id",
   validateAuthTokenMiddleware,
   validateInviteIdMiddleware,
+  validateDeleteInvitesPermissionMiddleware,
   deleteInviteController
 );

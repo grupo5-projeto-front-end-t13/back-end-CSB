@@ -59,7 +59,7 @@ userRoutes.delete(
   validateUserPermissionMiddleware,
   deleteController
 );
-userRoutes.get("/verify/:id",userVerifyController)
-userRoutes.get("/resendemail/:id",resendVerifyEmailController)
-userRoutes.post("/forgotpassword",userForgotPassController)
-userRoutes.post("/resetpass",userResetPassController)
+userRoutes.get("/verify/:id", userVerifyController);
+userRoutes.get("/resendemail/:id", resendVerifyEmailController);
+userRoutes.post("/forgotpassword", userForgotPassController);
+userRoutes.post("/resetpass", userResetPassController);
