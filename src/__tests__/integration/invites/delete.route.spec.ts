@@ -6,7 +6,7 @@ import { inviteRepository } from "../../../repositories/inviteRepository";
 import { userRepository } from "../../../repositories/userRepository";
 import { mockedBand1, mockedBand1Login, mockedMusician1,mockedUserNotAdmRequest,mockedLoginNotAdmRequest,mockedUserAdmRequest,mockedLoginAdmRequest } from "../../mocks";
 
-describe("Create invite route tests", () => {
+describe("Delete invite route tests", () => {
   let conn: DataSource;
   const baseUrl: string = "/invites"
 

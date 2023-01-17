@@ -5,7 +5,7 @@ import app from "../../../app";
 import { skillRepository } from "../../../repositories/skillRepository";
 import { mockedUserAdmRequest, mockedLoginAdmRequest, mockedBand1, mockedBand1Login} from "../../mocks";
 
-describe ('Skill route tests', () => {
+describe ('Delete skill route tests', () => {
   let conn: DataSource;
   const baseUrl: string = "/skills"
 

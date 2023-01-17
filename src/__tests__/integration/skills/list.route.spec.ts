@@ -4,7 +4,7 @@ import request from "supertest";
 import app from "../../../app";
 import { skillRepository } from "../../../repositories/skillRepository";
 
-describe ('Skill route tests', () => {
+describe ('List skill route tests', () => {
   let conn: DataSource;
   const baseUrl: string = "/skills"
 
