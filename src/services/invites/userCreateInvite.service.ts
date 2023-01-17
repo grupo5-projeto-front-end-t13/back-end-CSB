@@ -1,5 +1,4 @@
 import {
-  iInviteRequest,
   iUserIdReceive,
   iUserIdSend,
 } from "../../interfaces/invites.interfaces";
@@ -22,20 +21,21 @@ export const userCreateInviteService = async (
   });
 
   const findInviteSend = await inviteRepository.findOneBy({
-      userIdReceive: {id: idReceive},
-      userIdSend: {id: idSend}
+    userIdReceive: { id: idReceive.id },
+    userIdSend: { id: idSend.id },
   });
 
   const findInviteReceive = await inviteRepository.findOneBy({
-    userIdReceive: {id: idSend},
-    userIdSend: {id: idReceive}
-});
+    userIdReceive: { id: idSend.id },
+    userIdSend: { id: idReceive.id },
+  });
 
   if (!findReceiveUser) throw new AppError(404, "Can not find receive user");
 
   if (!findSendUser) throw new AppError(404, "Can not find send user");
 
-  if(findInviteSend || findInviteReceive) throw new AppError(409, "Invite already exists");
+  if (findInviteSend || findInviteReceive)
+    throw new AppError(409, "Invite already exists");
 
   const newInvite = inviteRepository.create({
     userIdReceive: { id: idReceive.id },

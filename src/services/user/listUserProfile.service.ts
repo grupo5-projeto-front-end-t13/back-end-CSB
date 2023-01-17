@@ -1,8 +1,5 @@
 import { AppError } from "../../errors/errors";
-import {
-  iUserCreateResponse,
-  iUserRequest,
-} from "../../interfaces/user.interfaces";
+import { iUserCreateResponse } from "../../interfaces/user.interfaces";
 import { userRepository } from "../../repositories/userRepository";
 import { createUserResponseSerializer } from "../../serializers/user/user.serializers";
 
