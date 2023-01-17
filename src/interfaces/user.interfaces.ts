@@ -28,6 +28,7 @@ export interface iUser {
   createdAt: Date;
   updatedAt: Date;
   isAdm: boolean;
+  verified:boolean;
   skills: iSkill;
 }
 

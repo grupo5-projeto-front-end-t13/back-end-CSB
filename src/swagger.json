@@ -263,6 +263,9 @@
                 }
             }
         },
+        "users/verify/{userId}": {
+            
+        },
         "/login": {
             "post": {
                 "summary": "Responsável por fazer o login",
@@ -455,6 +458,93 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/skills": {
+            "get": {
+                "summary": "Lista todos as skills",
+                "description": "Essa rota lista todas as skills com seus respectivos id",
+                "tags": ["Skills"],
+                "responses": {
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SkillsResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Criação de uma nova skill",
+                "description": "Essa rota é responsável por cadastrar uma nova skill e somente o admin pode criar.",
+                "tags": ["Skills"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                               "$ref": "#/components/schemas/SkillsRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "403":{
+                        "description": "Unauthorized"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/SkillsResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "skills/:id": {
+            "delete":{
+                "summary": "Deleta uma skill existente",
+                "description": "Essa rota faz a deleção de uma skill",
+                "tags": ["Skills"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Missing authorization headers"
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Invalid Id"
+                    },
+                    "204": {
+                        "description": "No content"
                     }
                 }
             }
@@ -833,6 +923,27 @@
                     "createdAt": {
                         "type": "string",
                         "format": "Date"
+                    }
+                }
+            },
+            "SkillsResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "SkillsRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Saxofonista"
                     }
                 }
             }
