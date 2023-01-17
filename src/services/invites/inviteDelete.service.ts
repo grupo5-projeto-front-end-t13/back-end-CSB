@@ -8,7 +8,7 @@ export const deleteInviteService = async (id: string,user: {id: string,type: str
   .leftJoinAndSelect("invites.userIdSend","sender")
   .getOne()
 
-  if(!(user.id==invite?.userIdReceive.id || user.id == invite?.userIdSend.id || user.isAdm)){
+  if(!(user.id === invite?.userIdReceive.id || user.id == invite?.userIdSend.id)){
     throw new AppError (401, 'You cannot delete an invitation that you do not own.');
   }
 

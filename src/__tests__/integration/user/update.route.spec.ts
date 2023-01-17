@@ -3,7 +3,7 @@ import { DataSource } from "typeorm";
 import app from "../../../app";
 import { AppDataSource } from "../../../data-source";
 import { userRepository } from "../../../repositories/userRepository";
-import { mockedLoginAdmRequest, mockedLoginNotAdmRequest, mockedUserAdmRequest } from "../../mocks";
+import { mockedBand1, mockedBand1Login, mockedLoginAdmRequest, mockedLoginNotAdmRequest, mockedUserAdmRequest } from "../../mocks";
 
 describe("Update user route tests", () => {
   let conn: DataSource;
@@ -81,9 +81,13 @@ describe("Update user route tests", () => {
         type: "band", 
         skills: {id: createSkill.body.id}
     });
- 
+
     const userLogin = await request(app).post("/login").send(mockedLoginNotAdmRequest);    
-    const response = await request(app).patch(`/users/${user.body.id}`).send(newValues).set("Authorization",`Bearer ${loginAdm.body.token}`)
+    
+    const user2 = await request(app).post(baseUrl).send(mockedBand1)
+    const user2Login = await request(app).post("/login").send(mockedBand1Login);    
+    
+    const response = await request(app).patch(`/users/${user.body.id}`).send(newValues).set("Authorization",`Bearer ${user2Login.body.token}`)
 
     expect(response.status).toBe(401)
     expect(response.body).toHaveProperty("message")
@@ -112,4 +116,27 @@ describe("Update user route tests", () => {
     expect(response.body).not.toHaveProperty("password")
   });
 
+  it("Should be able to update any user being admin" , async() => {
+    const newValues = { name: "Lype Platinas", email: "eoplatinas@mail.com" };
+
+    const userAdm = await request(app).post(baseUrl).send(mockedUserAdmRequest);
+    const loginAdm = await request(app).post("/login").send(mockedLoginAdmRequest);
+    const createSkill = await request(app).post("/skills").send({name: "Guitarrista"}).set("Authorization", `Bearer ${loginAdm.body.token}`);
+
+    const user = await request(app).post(baseUrl).send({
+        name: "bruno2",
+        email: "bruno2@gmail.com",
+        password: "123456",
+        type: "band", 
+        skills: {id: createSkill.body.id}
+    });
+ 
+    const userLogin = await request(app).post("/login").send(mockedLoginNotAdmRequest);    
+    const response = await request(app).patch(`/users/${user.body.id}`).send(newValues).set("Authorization",`Bearer ${loginAdm.body.token}`)
+
+    expect(response.status).toBe(200)
+    expect(response.body.name).toEqual("Lype Platinas")
+    expect(response.body.email).toEqual("eoplatinas@mail.com")
+    expect(response.body).not.toHaveProperty("password")
+  });
 });

@@ -17,9 +17,21 @@ export const userCreateInviteService = async (body: iInviteRequest) => {
     id: idSend,
   });
 
+  const findInviteSend = await inviteRepository.findOneBy({
+      userIdReceive: {id: idReceive},
+      userIdSend: {id: idSend}
+  });
+
+  const findInviteReceive = await inviteRepository.findOneBy({
+    userIdReceive: {id: idSend},
+    userIdSend: {id: idReceive}
+});
+
   if (!findReceiveUser) throw new AppError(404, "Can not find receive user");
 
   if (!findSendUser) throw new AppError(404, "Can not find send user");
+
+  if(findInviteSend || findInviteReceive) throw new AppError(409, "Invite already exists");
 
   const newInvite = inviteRepository.create({
     userIdReceive: body.userIdReceive,

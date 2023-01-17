@@ -6,28 +6,28 @@ import { inviteRepository } from "../../../repositories/inviteRepository";
 import { userRepository } from "../../../repositories/userRepository";
 import { mockedBand1, mockedBand1Login, mockedMusician1 } from "../../mocks";
 
-describe("Create invite route tests", ()=>{
+describe("Create invite route tests", () => {
   let conn: DataSource;
   const baseUrl: string = "/invites"
 
-  beforeAll(async()=>{
+  beforeAll(async () => {
     await AppDataSource.initialize()
     .then((res=> (conn = res)))
     .catch((err)=> console.error(err))
   });
 
-  afterAll(async()=>{
+  afterAll(async () => {
     await conn.destroy()
   });
 
-  beforeEach(async()=> {
+  beforeEach(async ( )=> {
     const invites = await inviteRepository.find()
     await inviteRepository.remove(invites)
     const users = await userRepository.find()
     await userRepository.remove(users)
   })
 
-  it("Should be able to create a invite", async()=>{
+  it("Should be able to create a invite", async () => {
     const user1 = await request(app).post("/users").send(mockedBand1);
     const user2 = await request(app).post("/users").send(mockedMusician1);
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login)
@@ -42,7 +42,7 @@ describe("Create invite route tests", ()=>{
     expect(amount).toBe(1)
   });
 
-  it("Should not be able to create a invite without token", async()=>{
+  it("Should not be able to create a invite without token", async () => {
     const user1 = await request(app).post("/users").send(mockedBand1);
     const user2 = await request(app).post("/users").send(mockedMusician1);
     const response = await request(app).post(baseUrl).send({userIdSend: {id: user1.body.id},
@@ -55,5 +55,18 @@ describe("Create invite route tests", ()=>{
     expect(amount).toBe(0)
   });
 
+  it("Should not be able to create a invite already exists", async () => {
+    const user1 = await request(app).post("/users").send(mockedBand1);
+    const user2 = await request(app).post("/users").send(mockedMusician1);
+    const loginUser1 = await request(app).post("/login").send(mockedBand1Login)
+    const invite = await request(app).post(baseUrl).send({userIdSend: {id: user1.body.id},
+    userIdReceive: {id: user2.body.id}},).set("Authorization", `Bearer ${loginUser1.body.token}`);
+
+    const response = await request(app).post(baseUrl).send({userIdSend: {id: user1.body.id},
+      userIdReceive: {id: user2.body.id}},).set("Authorization", `Bearer ${loginUser1.body.token}`);
+ 
+    expect(response.status).toBe(409)
+    expect(response.body).toHaveProperty("message");
+  });
 
 });
