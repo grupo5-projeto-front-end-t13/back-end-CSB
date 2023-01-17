@@ -8,13 +8,14 @@ export const userVerifyService = async (id: string) => {
     throw new AppError(404,"Could not verify user")
   }
 
-//   if (user.verified) {
-//     return res.send("User is already verified");
-//   }
+  if (user.verified) {
+    console.log("User is already verified");
+    return {message: "User successfully verified"}
+  }
 
-//   user.verified = true
+  user.verified = true
 
-//   await userRepository.save(user)
+  await userRepository.save(user)
 
   return {message: "User successfully verified"}
   

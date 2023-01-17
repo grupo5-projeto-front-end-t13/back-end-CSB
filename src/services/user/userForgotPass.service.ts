@@ -9,17 +9,17 @@ export const userForgotPassService = async (email: string) => {
       throw new AppError(404,"If a user with that email is registered you will receive a password reset email")
     }
 
-//   if (!user.verified) {
-//     return res.send("User is not verified");
-//   }
+  if (!user.verified) {
+    throw new AppError(400, "User is not verified")
+  }
 
-    await sendEmail({
-        from: "completesuabanda@gmail.com",
-        to: user.email,
-        subject: "Bem vindo ao complete sua banda",
-        text: `Código para alteração de senha: ${user.id}`
-    })
+  await sendEmail({
+      from: "completesuabanda@gmail.com",
+      to: user.email,
+      subject: "Alteração de senha",
+      text: `Código para alteração de senha: ${user.id}`
+  })
 
-    return {message: "If a user with that email is registered you will receive a password reset email"}
+    return {message: "You will recieved a email with a code."}
   
 };
