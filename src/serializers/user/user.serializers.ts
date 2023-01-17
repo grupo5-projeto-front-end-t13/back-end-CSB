@@ -119,7 +119,7 @@ export const updateUserSerializer: yup.SchemaOf<iUserUpdateRequest> = yup
       .object()
       .shape({
         id: yup.string().uuid().notRequired(),
-        name: yup.string().notRequired()
+        name: yup.string().notRequired(),
       })
       .notRequired(),
   });

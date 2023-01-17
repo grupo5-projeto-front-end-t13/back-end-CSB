@@ -7,7 +7,6 @@ export const createSkillsService = async (name: string) => {
   if (findSkill) throw new AppError(409, "Skill already exists");
 
   const newSkill = skillRepository.create({ name });
-
   await skillRepository.save(newSkill);
 
   return newSkill;
