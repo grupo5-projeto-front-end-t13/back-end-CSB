@@ -31,7 +31,7 @@ describe ('Delete skill route tests', () => {
       const createSkill = await request(app).post(baseUrl).send({ name: "Guitarrista" }).set("Authorization", `Bearer ${admLogin.body.token}`);
       const response = await request(app).delete(`${baseUrl}/${createSkill.body.id}`);
 
-      expect(response.statusCode).toBe(401);
+      expect(response.status).toBe(401);
       expect(response.body).toHaveProperty("message");
   });
 
@@ -45,7 +45,7 @@ describe ('Delete skill route tests', () => {
     
     const response = await request(app).delete(`${baseUrl}/${createSkill.body.id}`).set("Authorization", `Bearer ${userLogin.body.token}`);
 
-    expect(response.statusCode).toBe(403);
+    expect(response.status).toBe(403);
     expect(response.body).toHaveProperty("message");
   });
 
@@ -56,7 +56,7 @@ describe ('Delete skill route tests', () => {
     
     const response = await request(app).delete(`${baseUrl}/${"4e99808c-c06d-4109-9b95-1a2fef3f9fb8"}`).set("Authorization", `Bearer ${admLogin.body.token}`);
 
-    expect(response.statusCode).toBe(404);
+    expect(response.status).toBe(404);
     expect(response.body).toHaveProperty("message");
   });
 
@@ -67,6 +67,6 @@ describe ('Delete skill route tests', () => {
     
     const response = await request(app).delete(`${baseUrl}/${createSkill.body.id}`).set("Authorization", `Bearer ${admLogin.body.token}`);
 
-    expect(response.statusCode).toBe(204);
+    expect(response.status).toBe(204);
   });
 });

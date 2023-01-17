@@ -24,7 +24,7 @@ describe("Create user route tests", () => {
     await userRepository.remove(users)
   })
 
-  it("Should not be able to create user", async() => {
+  it("Should not be able to create a invalid user", async() => {
     const response = await request(app).post(baseUrl).send(mockedUserInvalidBodyRequest);
 
     const expectResults = {
