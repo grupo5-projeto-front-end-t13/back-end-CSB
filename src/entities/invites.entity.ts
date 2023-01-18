@@ -17,11 +17,9 @@ export default class Invites {
   @CreateDateColumn()
   createdAt: Date;
 
-
-  @ManyToOne(() => User, {onDelete: "CASCADE"})
+  @ManyToOne(() => User, { onDelete: "CASCADE" })
   userIdReceive: User;
-  
 
-  @ManyToOne(() => User, {onDelete: "CASCADE"})
-  userIdSend: User
+  @ManyToOne(() => User, { onDelete: "CASCADE" })
+  userIdSend: User;
 }

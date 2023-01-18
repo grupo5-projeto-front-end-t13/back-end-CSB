@@ -14,8 +14,6 @@ export const returnInviteSerializer: yup.SchemaOf<iInviteResponse> = yup
     userIdSend: yup.object().shape({
       id: yup.string().uuid().required(),
     }),
-    // userIdReceive: yup.string().uuid().required(),
-    // userIdSend:  yup.string().uuid().required(),
     createdAt: yup.date().required(),
   });
 
