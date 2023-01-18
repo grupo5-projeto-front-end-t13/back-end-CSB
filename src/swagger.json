@@ -13,6 +13,10 @@
         {
             "url": "http://localhost:3000",
             "description": "API de desenvolvimento"
+        },
+        {
+            "url": "https://complete-sua-banda.onrender.com/",
+            "description": "API de produção"
         }
     ],
     "paths": {
@@ -338,7 +342,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                               "$ref": "#/components/schemas/ForgotResponse"
+                               "$ref": "#/components/schemas/ForgotRequest"
                             }
                         }
                     }
@@ -353,7 +357,7 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "$ref": "#/components/schemas/ForgotRequest"
+                                    "$ref": "#/components/schemas/ForgotResponse"
                                 }
                             }
                         }
