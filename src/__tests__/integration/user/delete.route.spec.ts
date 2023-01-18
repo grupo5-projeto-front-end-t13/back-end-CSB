@@ -26,7 +26,6 @@ describe("Delete user route tests", () => {
 
   it("Should not be able to delete user without authentication", async () => {
     const admin = await request(app).post(baseUrl).send(mockedUserAdmRequest);
-    // const verify = await request(app).get(`/users/verify/${admin.body.id}`);
     const adminLogin = await request(app)
       .post("/login")
       .send(mockedLoginAdmRequest);
@@ -41,8 +40,6 @@ describe("Delete user route tests", () => {
         type: "band",
         skills: { id: findSkill.body[0].id },
       });
-
-    // await request(app).get(`/users/verify/${deletedUser.body.id}`);
     
     const response = await request(app).delete(
       `${baseUrl}/${deletedUser.body.id}`
@@ -54,7 +51,6 @@ describe("Delete user route tests", () => {
 
   it("Should not be able to delete a invalid user", async () => {
     const admin = await request(app).post(baseUrl).send(mockedUserAdmRequest);
-    // await request(app).post(`/verify/${admin.body.id}`);
     const loginResponse = await request(app)
       .post("/login")
       .send(mockedLoginAdmRequest);
@@ -69,7 +65,6 @@ describe("Delete user route tests", () => {
 
   it("Should not be able to delete a user other than your own", async () => {
     const admin = await request(app).post(baseUrl).send(mockedUserAdmRequest);
-    // const verify = await request(app).get(`/users/verify/${admin.body.id}`);
     const adminLogin = await request(app)
       .post("/login")
       .send(mockedLoginAdmRequest);
@@ -85,8 +80,6 @@ describe("Delete user route tests", () => {
       skills: { id: findSkill.body[0].id },
     });
 
-    // await request(app).get(`/users/verify/${user1.body.id}`);
-
     const userLogin1 = await request(app)
       .post("/login")
       .send({
@@ -101,8 +94,6 @@ describe("Delete user route tests", () => {
         type: "band",
         skills: { id: findSkill.body[0].id },
     });
-
-    // await request(app).get(`/users/verify/${user2.body.id}`);
     
     const response = await request(app).delete(
       `${baseUrl}/${user2.body.id}`
@@ -114,7 +105,6 @@ describe("Delete user route tests", () => {
 
   it("Should be able to delete any user being admin", async () => {
     const admin = await request(app).post(baseUrl).send(mockedUserAdmRequest);
-    // const verify = await request(app).get(`/users/verify/${admin.body.id}`);
     const adminLogin = await request(app)
       .post("/login")
       .send(mockedLoginAdmRequest);
@@ -129,8 +119,6 @@ describe("Delete user route tests", () => {
         type: "band",
         skills: { id: findSkill.body[0].id },
       });
-
-    // await request(app).get(`/users/verify/${deletedUser.body.id}`);
     
     const response = await request(app).delete(
       `${baseUrl}/${deletedUser.body.id}`
@@ -141,7 +129,6 @@ describe("Delete user route tests", () => {
 
   it("Should be able to delete your own user", async () => {
     const admin = await request(app).post(baseUrl).send(mockedUserAdmRequest);
-    // const verify = await request(app).get(`/users/verify/${admin.body.id}`);
     const adminLogin = await request(app)
       .post("/login")
       .send(mockedLoginAdmRequest);
@@ -156,8 +143,6 @@ describe("Delete user route tests", () => {
         type: "band",
         skills: { id: findSkill.body[0].id },
       });
-
-    // await request(app).get(`/users/verify/${user.body.id}`);
     
     const userLogin = await request(app).post("/login")
     .send({
