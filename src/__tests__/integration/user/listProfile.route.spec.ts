@@ -4,8 +4,8 @@ import app from "../../../app";
 import { AppDataSource } from "../../../data-source";
 import { userRepository } from "../../../repositories/userRepository";
 import {
-  mockedLoginNotAdmRequest,
-  mockedUserNotAdmRequest,
+  mockedLoginAdmRequest,
+  mockedUserAdmRequest
 } from "../../mocks/";
 
 describe("List user profile tests", () => {
@@ -44,13 +44,33 @@ describe("List user profile tests", () => {
   });
 
   it("Must be able to list user profile", async () => {
-    await request(app).post(baseUrl).send(mockedUserNotAdmRequest);
-    const logedUser = await request(app)
+    const admin = await request(app).post(baseUrl).send(mockedUserAdmRequest);
+    // const verify = await request(app).get(`/users/verify/${admin.body.id}`);
+    const adminLogin = await request(app)
       .post("/login")
-      .send(mockedLoginNotAdmRequest);
+      .send(mockedLoginAdmRequest);
+
+    const createSkill = await request(app).post("/skills").send({ name: "Guitarrista" }).set("Authorization", `Bearer ${adminLogin.body.token}`);
+    const findSkill = await request(app).get("/skills");
+
+    const user = await request(app).post(baseUrl).send({
+      name: "bruno2",
+      email: "bruno2@gmail.com",
+      password: "123456",
+      type: "band",
+      skills: { id: findSkill.body[0].id },
+    });
+
+    // const verify = await request(app).get(`/users/verify/${user.body.id}`);
+
+    const userLogin = await request(app).post("/login").send({
+      email: "bruno2@gmail.com",
+      password: "123456"
+    });
+
     const response = await request(app)
       .get(`${baseUrl}/profile`)
-      .set("Authorization", `Bearer ${logedUser.body.token}`);
+      .set("Authorization", `Bearer ${userLogin.body.token}`);
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("name");
