@@ -1,5 +1,8 @@
 import { iLogin } from "../../../interfaces/login.intefaces";
-import { iUserRequest } from "../../../interfaces/user.interfaces";
+import {
+  iUserRequest,
+  iUserUpdateRequest,
+} from "../../../interfaces/user.interfaces";
 
 export const mockedUserAdmRequest: iUserRequest = {
   name: "bruno",
@@ -60,25 +63,34 @@ export const mockedLoginNotAdmRequest: Omit<
 
 export const mockedMusician1: iUserRequest = {
   name: "Mario K.",
-  email: "mario@mail.com",
+  email: "mario@gmail.com",
   password: "SuperSafe123",
   type: "musician",
   skills: {
-    id: "123791287391827",
+    id: "4e99808c-c06d-4109-9b95-1a2fef3f8ea7",
   },
 };
 
 export const mockedBand1: iUserRequest = {
   name: "Larissa L.",
-  email: "larissa@mail.com",
+  email: "larissa@gmail.com",
   password: "SuperSafe123",
   type: "band",
   skills: {
-    id: "123791287391827",
+    id: "4e99808c-c06d-4109-9b95-1a2fef3f8ea7",
   },
 };
 
 export const mockedBand1Login: iLogin = {
-  email: "larissa@mail.com",
-  password: "SuperSafe123"
-}
+  email: "larissa@gmail.com",
+  password: "SuperSafe123",
+};
+
+export const mockedUserUpdateRequest: iUserUpdateRequest = {
+  name: "Mario K.",
+  email: "mario@gmail.com",
+  password: "SuperSafe123",
+  skills: {
+    id: "4e99808c-c06d-4109-9b95-1a2fef3f8ea7",
+  },
+};

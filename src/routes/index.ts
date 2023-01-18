@@ -9,4 +9,4 @@ export const globalRoutes = Router();
 globalRoutes.use("/users", userRoutes);
 globalRoutes.use("/invites", invitesRoutes);
 globalRoutes.use("/login", loginRoutes);
-globalRoutes.use("/skills", skillsRoutes)
+globalRoutes.use("/skills", skillsRoutes);

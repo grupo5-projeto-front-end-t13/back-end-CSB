@@ -12,16 +12,18 @@ export const createUsersService = async (
   const { skills, ...rest } = data;
 
   const findUser = await userRepository.findOneBy({ email: data.email });
-  
-  if(findUser) throw new AppError(409, "User already exists");
+
+  if (findUser) throw new AppError(409, "User already exists");
 
   const findSkill = await skillRepository.findOneBy({
     id: data.skills.id,
   });
 
+  if (!findSkill && !rest.isAdm) throw new AppError(404, "Skill does not exists");
+
   const user = userRepository.create({
     ...rest,
-    skills: {id: findSkill?.id},
+    skills: { id: findSkill?.id },
   });
 
   await userRepository.save(user);

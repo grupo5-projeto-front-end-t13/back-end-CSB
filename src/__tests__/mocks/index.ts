@@ -8,10 +8,12 @@ import {
   mockedLoginNotAdmRequest,
   mockedBand1,
   mockedBand1Login,
-  mockedMusician1
+  mockedMusician1,
+  mockedUserUpdateRequest,
 } from "./integration/user.mock";
 
 export {
+  mockedUserUpdateRequest,
   mockedUserAdmRequest,
   mockedUserNotAdmRequest,
   mockedUserInvalidBodyRequest,
@@ -21,5 +23,5 @@ export {
   mockedLoginNotAdmRequest,
   mockedBand1,
   mockedBand1Login,
-  mockedMusician1
+  mockedMusician1,
 };

@@ -1,8 +1,8 @@
-export interface iUserIdSend{
-  id: string
+export interface iUserIdSend {
+  id: string;
 }
-export interface iUserIdReceive{
-  id: string
+export interface iUserIdReceive {
+  id: string;
 }
 
 export interface iInviteRequest {
@@ -16,5 +16,3 @@ export interface iInviteResponse {
   userIdReceive: iUserIdReceive;
   createdAt: Date;
 }
-
-

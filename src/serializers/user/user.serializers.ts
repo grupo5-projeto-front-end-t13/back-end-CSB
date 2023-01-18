@@ -33,6 +33,7 @@ export const userSerializer: yup.SchemaOf<iUser> = yup.object().shape({
   genre: yup.string().notRequired(),
   image: yup.string().required(),
   isAdm: yup.boolean().required(),
+  verified: yup.boolean().required(),
   social_media: yup.string().required(),
   state: yup.string().required(),
   createdAt: yup.date().required(),
@@ -118,6 +119,7 @@ export const updateUserSerializer: yup.SchemaOf<iUserUpdateRequest> = yup
       .object()
       .shape({
         id: yup.string().uuid().notRequired(),
+        name: yup.string().notRequired(),
       })
       .notRequired(),
   });
