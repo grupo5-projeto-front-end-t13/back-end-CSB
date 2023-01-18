@@ -11,7 +11,7 @@ export const mockedUserAdmRequest: iUserRequest = {
   skills: {
     id: "4e99808c-c06d-4109-9b95-1a2fef3f8ea7",
   },
-  type: "band",
+  type: "admin",
   isAdm: true,
 };
 

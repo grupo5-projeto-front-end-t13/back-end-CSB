@@ -45,7 +45,6 @@ describe("List user profile tests", () => {
 
   it("Must be able to list user profile", async () => {
     const admin = await request(app).post(baseUrl).send(mockedUserAdmRequest);
-    // const verify = await request(app).get(`/users/verify/${admin.body.id}`);
     const adminLogin = await request(app)
       .post("/login")
       .send(mockedLoginAdmRequest);
@@ -60,8 +59,6 @@ describe("List user profile tests", () => {
       type: "band",
       skills: { id: findSkill.body[0].id },
     });
-
-    // const verify = await request(app).get(`/users/verify/${user.body.id}`);
 
     const userLogin = await request(app).post("/login").send({
       email: "bruno2@gmail.com",
