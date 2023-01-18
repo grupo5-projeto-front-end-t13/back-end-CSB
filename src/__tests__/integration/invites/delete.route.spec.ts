@@ -2,7 +2,6 @@ import request from "supertest";
 import { DataSource } from "typeorm";
 import app from "../../../app";
 import { AppDataSource } from "../../../data-source";
-import Skill from "../../../entities/skill.entity";
 import { inviteRepository } from "../../../repositories/inviteRepository";
 import { skillRepository } from "../../../repositories/skillRepository";
 import { userRepository } from "../../../repositories/userRepository";

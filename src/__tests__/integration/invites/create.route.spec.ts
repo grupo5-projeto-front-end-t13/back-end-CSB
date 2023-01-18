@@ -5,7 +5,7 @@ import { AppDataSource } from "../../../data-source";
 import { inviteRepository } from "../../../repositories/inviteRepository";
 import { userRepository } from "../../../repositories/userRepository";
 import { skillRepository } from "../../../repositories/skillRepository";
-import {mockedBand1,mockedBand1Login,mockedMusician1,mockedUserNotAdmRequest,mockedLoginNotAdmRequest,mockedUserAdmRequest,mockedLoginAdmRequest,} from "../../mocks";
+import {mockedBand1,mockedBand1Login,mockedMusician1,mockedUserAdmRequest,mockedLoginAdmRequest,} from "../../mocks";
 
 describe("Create invite route tests", () => {
   let conn: DataSource;
