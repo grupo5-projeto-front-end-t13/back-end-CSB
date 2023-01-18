@@ -37,7 +37,7 @@ const setDataSourceOptions = (): DataSourceOptions => {
     password: String(process.env.PGPASSWORD),
     database: process.env.PGDATABASE,
     logging: true,
-    synchronize: false,
+    synchronize: true,
     entities: [entitiesPath],
     migrations: [migrationsPath]
   }

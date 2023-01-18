@@ -10,9 +10,11 @@ import {
   mockedBand1Login,
   mockedMusician1,
   mockedUserUpdateRequest,
+  mockedMusician1Login
 } from "./integration/user.mock";
 
 export {
+  mockedMusician1Login,
   mockedUserUpdateRequest,
   mockedUserAdmRequest,
   mockedUserNotAdmRequest,

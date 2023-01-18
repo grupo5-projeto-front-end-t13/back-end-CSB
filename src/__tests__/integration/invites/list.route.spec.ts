@@ -51,7 +51,6 @@ describe("List invite route tests", () => {
       })
       .set("Authorization", `Bearer ${loginUser2.body.token}`);
 
-      console.log(invite.body)
 
     const response = await request(app)
       .get(`${baseUrl}/received/${user1.body.id}`)

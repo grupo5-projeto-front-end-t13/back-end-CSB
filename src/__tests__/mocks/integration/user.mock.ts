@@ -71,6 +71,11 @@ export const mockedMusician1: iUserRequest = {
   },
 };
 
+export const mockedMusician1Login: iLogin = {
+  email: "mario@gmail.com",
+  password: "SuperSafe123",
+}
+
 export const mockedBand1: iUserRequest = {
   name: "Larissa L.",
   email: "larissa@gmail.com",

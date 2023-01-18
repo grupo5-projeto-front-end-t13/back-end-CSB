@@ -8,7 +8,10 @@ import {
   mockedLoginAdmRequest,
   mockedBand1,
   mockedBand1Login,
+  mockedMusician1,
+  mockedMusician1Login,
 } from "../../mocks";
+import { userRepository } from "../../../repositories/userRepository";
 
 describe("Delete skill route tests", () => {
   let conn: DataSource;
@@ -27,6 +30,8 @@ describe("Delete skill route tests", () => {
   beforeEach(async () => {
     const skills = await skillRepository.find();
     await skillRepository.remove(skills);
+    // const users = await userRepository.find();
+    // await userRepository.remove(users);
   });
 
   it("should not be able to delete skills without authentication", async () => {
@@ -49,19 +54,24 @@ describe("Delete skill route tests", () => {
   });
 
   it("should not be able to delete skills without admin permission", async () => {
-    const user = await request(app).post("/users").send(mockedBand1);
-    const userLogin = await request(app).post("/login").send(mockedBand1Login);
-
     const userAdm = await request(app)
-      .post("/users")
-      .send(mockedUserAdmRequest);
+    .post("/users")
+    .send(mockedUserAdmRequest);
+
     const admLogin = await request(app)
-      .post("/login")
-      .send(mockedLoginAdmRequest);
+    .post("/login")
+    .send(mockedLoginAdmRequest);
+    
     const createSkill = await request(app)
-      .post(baseUrl)
-      .send({ name: "Guitarrista" })
-      .set("Authorization", `Bearer ${admLogin.body.token}`);
+    .post(baseUrl)
+    .send({ name: "Guitarrista" })
+    .set("Authorization", `Bearer ${admLogin.body.token}`);
+    
+    const user = await request(app).post("/users").send({...mockedMusician1, skills:{id: createSkill.body.id}});
+    console.log("user", user.body)
+
+    const userLogin = await request(app).post("/login").send(mockedMusician1Login);
+    console.log("user", userLogin.body)
 
     const response = await request(app)
       .delete(`${baseUrl}/${createSkill.body.id}`)

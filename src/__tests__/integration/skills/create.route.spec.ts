@@ -8,6 +8,8 @@ import {
   mockedLoginAdmRequest,
   mockedBand1,
   mockedBand1Login,
+  mockedMusician1,
+  mockedMusician1Login,
 } from "../../mocks";
 
 describe("Create skill route tests", () => {
@@ -43,8 +45,23 @@ describe("Create skill route tests", () => {
   });
 
   it("should not be able to create skills without admin permission", async () => {
-    const user = await request(app).post("/users").send(mockedBand1);
-    const userLogin = await request(app).post("/login").send(mockedBand1Login);
+    const userAdm = await request(app)
+    .post("/users")
+    .send(mockedUserAdmRequest);
+
+    const admLogin = await request(app)
+    .post("/login")
+    .send(mockedLoginAdmRequest);
+    
+    const createSkill = await request(app)
+    .post(baseUrl)
+    .send({ name: "Guitarrista" })
+    .set("Authorization", `Bearer ${admLogin.body.token}`);
+    
+    const user = await request(app).post("/users").send({...mockedMusician1, skills:{id: createSkill.body.id}});
+
+    const userLogin = await request(app).post("/login").send(mockedMusician1Login);
+
 
     const response = await request(app)
       .post(baseUrl)

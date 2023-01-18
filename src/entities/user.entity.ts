@@ -62,7 +62,7 @@ export default class User {
   @Column({ default: false })
   verified: boolean;
 
-  @ManyToOne(() => Skill)
+  @ManyToOne(() => Skill,  {onDelete: "CASCADE"})
   skills: Skill;
 
   @OneToMany(() => Invites, (invite) => invite.userIdReceive)
