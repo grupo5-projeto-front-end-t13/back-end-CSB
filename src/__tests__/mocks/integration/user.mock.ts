@@ -63,7 +63,7 @@ export const mockedLoginNotAdmRequest: Omit<
 
 export const mockedMusician1: iUserRequest = {
   name: "Mario K.",
-  email: "mario@mail.com",
+  email: "mario@gmail.com",
   password: "SuperSafe123",
   type: "musician",
   skills: {
@@ -73,7 +73,7 @@ export const mockedMusician1: iUserRequest = {
 
 export const mockedBand1: iUserRequest = {
   name: "Larissa L.",
-  email: "larissa@mail.com",
+  email: "larissa@gmail.com",
   password: "SuperSafe123",
   type: "band",
   skills: {
@@ -82,13 +82,13 @@ export const mockedBand1: iUserRequest = {
 };
 
 export const mockedBand1Login: iLogin = {
-  email: "larissa@mail.com",
+  email: "larissa@gmail.com",
   password: "SuperSafe123",
 };
 
 export const mockedUserUpdateRequest: iUserUpdateRequest = {
   name: "Mario K.",
-  email: "mario@mail.com",
+  email: "mario@gmail.com",
   password: "SuperSafe123",
   skills: {
     id: "4e99808c-c06d-4109-9b95-1a2fef3f8ea7",
