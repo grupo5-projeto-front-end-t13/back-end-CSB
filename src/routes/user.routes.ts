@@ -19,6 +19,7 @@ import { userVerifyController } from "../controllers/user/userVerify.controller"
 import { userForgotPassController } from "../controllers/user/userForgotPass.controller";
 import { userResetPassController } from "../controllers/user/userResetPass.controller";
 import { resendVerifyEmailController } from "../controllers/user/resendVerifyEmail.controller";
+import { validateUserEmailMiddleware } from "../middlewares/validateUserEmail.middleware";
 
 export const userRoutes = Router();
 
@@ -47,6 +48,7 @@ userRoutes.get(
 userRoutes.patch(
   "/:id",
   validateAuthTokenMiddleware,
+  validateUserEmailMiddleware,
   validateDataMiddleware(updateUserSerializer),
   validateIdMiddleware,
   validateUserPermissionMiddleware,

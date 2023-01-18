@@ -7,6 +7,7 @@ import { validateAuthTokenMiddleware } from "../middlewares/validateAuthToken.mi
 import { validateIdMiddleware } from "../middlewares/validateId.middleware";
 import { validateInviteIdMiddleware } from "../middlewares/validateInviteId.middleware";
 import { validateDeleteInvitesPermissionMiddleware } from "../middlewares/validateDeleteInvitesPermission.middleware";
+import { validateUserEmailMiddleware } from "../middlewares/validateUserEmail.middleware";
 
 export const invitesRoutes = Router();
 
@@ -22,7 +23,12 @@ invitesRoutes.get(
   validateIdMiddleware,
   listUserSendedInvitesController
 );
-invitesRoutes.post("", validateAuthTokenMiddleware, createUserInviteController);
+invitesRoutes.post(
+  "",
+  validateAuthTokenMiddleware,
+  validateUserEmailMiddleware,
+  createUserInviteController
+);
 invitesRoutes.delete(
   "/:id",
   validateAuthTokenMiddleware,

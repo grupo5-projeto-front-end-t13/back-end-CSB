@@ -11,7 +11,7 @@
     "test": "cross-env NODE_ENV=test SECRET_KEY=secret_key jest  --verbose --runInBand",
     "migration:generate": "typeorm-ts-node-commonjs migration:generate -d ./src/data-source.ts",
     "typeOrm": "typeorm-ts-node-commonjs",
-    "m:run":"typeorm-ts-node-commonjs migration:run -d ./src/data-source.ts"
+    "m:run": "typeorm-ts-node-commonjs migration:run -d ./src/data-source.ts"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
