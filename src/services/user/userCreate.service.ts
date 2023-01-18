@@ -9,7 +9,7 @@ import { createUserResponseSerializer } from "../../serializers/user/user.serial
 export const createUsersService = async (
   data: iUserRequest
 ): Promise<iUserCreateResponse> => {
-  const { skills, isAdm, ...rest } = data;
+  const { skills, ...rest } = data;
 
   const findUser = await userRepository.findOneBy({ email: data.email });
 
@@ -19,7 +19,7 @@ export const createUsersService = async (
     id: data.skills.id,
   });
 
-  if (!findSkill && !isAdm) throw new AppError(404, "Skill does not exists");
+  if (!findSkill && !rest.isAdm) throw new AppError(404, "Skill does not exists");
 
   const user = userRepository.create({
     ...rest,

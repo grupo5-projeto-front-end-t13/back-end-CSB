@@ -4,7 +4,8 @@ import app from "../../../app";
 import { AppDataSource } from "../../../data-source";
 import { inviteRepository } from "../../../repositories/inviteRepository";
 import { userRepository } from "../../../repositories/userRepository";
-import { mockedBand1, mockedBand1Login, mockedMusician1 } from "../../mocks";
+import { skillRepository } from "../../../repositories/skillRepository";
+import {mockedBand1,mockedBand1Login,mockedMusician1,mockedUserNotAdmRequest,mockedLoginNotAdmRequest,mockedUserAdmRequest,mockedLoginAdmRequest,} from "../../mocks";
 
 describe("Create invite route tests", () => {
   let conn: DataSource;
@@ -25,12 +26,20 @@ describe("Create invite route tests", () => {
     await inviteRepository.remove(invites);
     const users = await userRepository.find();
     await userRepository.remove(users);
+    const skills = await skillRepository.find()
+    await skillRepository.remove(skills)
   });
 
   it("Should be able to create a invite", async () => {
-    const user1 = await request(app).post("/users").send(mockedBand1);
-    const user2 = await request(app).post("/users").send(mockedMusician1);
+    const userAdm = await request(app).post("/users").send(mockedUserAdmRequest);
+    const loginAdm = await request(app).post("/login").send(mockedLoginAdmRequest);
+    const skills = await request(app).post("/skills").send({ name: "tecladista2" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
+
+    const user1 = await request(app).post("/users").send({...mockedBand1,skills:{id:skills.body.id}});
+    const user2 = await request(app).post("/users").send({...mockedMusician1,skills:{id:skills.body.id}});
+
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
+
     const response = await request(app)
       .post(baseUrl)
       .send({
@@ -52,8 +61,13 @@ describe("Create invite route tests", () => {
   });
 
   it("Should not be able to create a invite without token", async () => {
-    const user1 = await request(app).post("/users").send(mockedBand1);
-    const user2 = await request(app).post("/users").send(mockedMusician1);
+    const userAdm = await request(app).post("/users").send(mockedUserAdmRequest);
+    const loginAdm = await request(app).post("/login").send(mockedLoginAdmRequest);
+    const skills = await request(app).post("/skills").send({ name: "tecladista2" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
+
+    const user1 = await request(app).post("/users").send({...mockedBand1,skills:{id:skills.body.id}});
+    const user2 = await request(app).post("/users").send({...mockedMusician1,skills:{id:skills.body.id}});
+
     const response = await request(app)
       .post(baseUrl)
       .send({
@@ -69,9 +83,15 @@ describe("Create invite route tests", () => {
   });
 
   it("Should not be able to create a invite already exists", async () => {
-    const user1 = await request(app).post("/users").send(mockedBand1);
-    const user2 = await request(app).post("/users").send(mockedMusician1);
+    const userAdm = await request(app).post("/users").send(mockedUserAdmRequest);
+    const loginAdm = await request(app).post("/login").send(mockedLoginAdmRequest);
+    const skills = await request(app).post("/skills").send({ name: "tecladista2" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
+
+    const user1 = await request(app).post("/users").send({...mockedBand1,skills:{id:skills.body.id}});
+    const user2 = await request(app).post("/users").send({...mockedMusician1,skills:{id:skills.body.id}});
+
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
+    
     const invite = await request(app)
       .post(baseUrl)
       .send({

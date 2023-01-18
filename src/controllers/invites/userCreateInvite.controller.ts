@@ -8,7 +8,7 @@ export const createUserInviteController = async (
   const idSend = req.body.userIdSend;
   const idReceive = req.body.userIdReceive;
 
-  const data = await userCreateInviteService(idSend, idReceive);
+  const data = await userCreateInviteService(idReceive,idSend);
 
   return res.status(201).json(data);
 };
