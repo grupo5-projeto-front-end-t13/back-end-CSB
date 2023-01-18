@@ -94,7 +94,7 @@ describe("List user route tests", () => {
       .set("Authorization", `Bearer ${user1login.body.token}`);
 
     expect(response.status).toBe(401);
-    expect(response.body).not.toHaveProperty("message");
+    expect(response.body).toHaveProperty("message");
   });
 
   it("Should not be able to list all bands", async () => {
@@ -131,7 +131,7 @@ describe("List user route tests", () => {
       .set("Authorization", `Bearer ${user1login.body.token}`);
 
     expect(response.status).toBe(401);
-    expect(response.body).not.toHaveProperty("message");
+    expect(response.body).toHaveProperty("message");
   });
 
   it("Should be able to list all musicians", async () => {
@@ -168,8 +168,8 @@ describe("List user route tests", () => {
       .set("Authorization", `Bearer ${user1login.body.token}`);
 
     expect(response.status).toBe(200);
-    expect(response.body).not.toHaveProperty("password");
     expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body).not.toHaveProperty("password");
   });
 
   it("Should be able to list all bands", async () => {

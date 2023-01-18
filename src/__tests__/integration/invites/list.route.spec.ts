@@ -5,7 +5,7 @@ import { AppDataSource } from "../../../data-source";
 import { inviteRepository } from "../../../repositories/inviteRepository";
 import { skillRepository } from "../../../repositories/skillRepository";
 import { userRepository } from "../../../repositories/userRepository";
-import {mockedBand1,mockedBand1Login,mockedMusician1,mockedUserNotAdmRequest,mockedLoginNotAdmRequest,mockedUserAdmRequest,mockedLoginAdmRequest} from "../../mocks";
+import {mockedBand1,mockedBand1Login,mockedMusician1,mockedUserAdmRequest,mockedLoginAdmRequest} from "../../mocks";
 
 describe("List invite route tests", () => {
   let conn: DataSource;
@@ -36,7 +36,6 @@ describe("List invite route tests", () => {
     const skills = await request(app).post("/skills").send({ name: "tecladista2" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
 
     const user1 = await request(app).post("/users").send({...mockedBand1,skills:{id:skills.body.id}});
-    console.log(user1.body)
     const user2 = await request(app).post("/users").send({...mockedMusician1,skills:{id:skills.body.id}});
 
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
@@ -50,8 +49,6 @@ describe("List invite route tests", () => {
         userIdReceive: { id: user1.body.id },
       })
       .set("Authorization", `Bearer ${loginUser2.body.token}`);
-
-      console.log(invite.body)
 
     const response = await request(app)
       .get(`${baseUrl}/received/${user1.body.id}`)
