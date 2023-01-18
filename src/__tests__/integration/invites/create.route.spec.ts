@@ -81,14 +81,6 @@ describe("Create invite route tests", () => {
       })
       .set("Authorization", `Bearer ${loginUser1.body.token}`);
 
-    expect(response.status).toBe(201);
-    expect(response.body).toEqual(
-      expect.objectContaining({ id: expect.any(String) })
-    );
-    expect(response.body).toEqual(
-      expect.objectContaining({ createdAt: expect.any(String) })
-    );
-
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty("message");
   });

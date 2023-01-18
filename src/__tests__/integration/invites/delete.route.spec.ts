@@ -37,6 +37,7 @@ describe("Delete invite route tests", () => {
     const skills = await request(app).post("/skills").send({ name: "tecladista2" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
 
     const user1 = await request(app).post("/users").send({...mockedBand1,skills:{id:skills.body.id}});
+    await request(app).get(`/users/verify/${user1.body.id}`);
     const user2 = await request(app).post("/users").send({...mockedMusician1,skills:{id:skills.body.id}});
 
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
@@ -61,6 +62,7 @@ describe("Delete invite route tests", () => {
     const skills = await request(app).post("/skills").send({ name: "tecladista2" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
 
     const user1 = await request(app).post("/users").send({...mockedBand1,skills:{id:skills.body.id}});
+    await request(app).get(`/users/verify/${user1.body.id}`);
     const user2 = await request(app).post("/users").send({...mockedMusician1,skills:{id:skills.body.id}});
 
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
@@ -87,6 +89,7 @@ describe("Delete invite route tests", () => {
     const skills = await request(app).post("/skills").send({ name: "tecladista2" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
 
     const user1 = await request(app).post("/users").send({...mockedBand1,skills:{id:skills.body.id}});
+    await request(app).get(`/users/verify/${user1.body.id}`);
     const user2 = await request(app).post("/users").send({...mockedMusician1,skills:{id:skills.body.id}});
 
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
@@ -111,6 +114,7 @@ describe("Delete invite route tests", () => {
     const skills = await request(app).post("/skills").send({ name: "tecladista2" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
 
     const user1 = await request(app).post("/users").send({...mockedBand1,skills:{id:skills.body.id}});
+    await request(app).get(`/users/verify/${user1.body.id}`);
     const user2 = await request(app).post("/users").send({...mockedMusician1,skills:{id:skills.body.id}});
 
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
@@ -129,6 +133,7 @@ describe("Delete invite route tests", () => {
     const skills = await request(app).post("/skills").send({ name: "tecladista2" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
 
     const user1 = await request(app).post("/users").send({...mockedBand1,skills:{id:skills.body.id}});
+    await request(app).get(`/users/verify/${user1.body.id}`);
     const user2 = await request(app).post("/users").send({...mockedMusician1,skills:{id:skills.body.id}});
     const userNotAdm = await request(app).post("/users").send({...mockedUserNotAdmRequest,skills:{id:skills.body.id}});
 
