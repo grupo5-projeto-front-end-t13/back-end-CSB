@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createSkillsController } from "../controllers/skills/createSkill.controller";
-import { deleteSkillController } from "../controllers/skills/deleteSkill.controller";
+import { updateSkillController } from "../controllers/skills/updateSkill.controller";
 import { listSkillsController } from "../controllers/skills/listSkills.controller";
 import { validateAuthTokenMiddleware } from "../middlewares/validateAuthToken.middleware";
 import { validateSkillIdMiddleware } from "../middlewares/validateSkillIdMiddleware.middleware";
@@ -15,10 +15,10 @@ skillsRoutes.post(
   validateIsAdm,
   createSkillsController
 );
-skillsRoutes.delete(
+skillsRoutes.patch(
   "/:id",
   validateAuthTokenMiddleware,
   validateIsAdm,
   validateSkillIdMiddleware,
-  deleteSkillController
+  updateSkillController
 );
