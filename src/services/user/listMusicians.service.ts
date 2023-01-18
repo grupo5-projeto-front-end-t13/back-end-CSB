@@ -9,7 +9,7 @@ export const listMusiciansService = async (
   if (userType === "musician") {
     throw new AppError(401, "You cannot see users of the same type as you");
   }
-  
+
   const musicians = await userRepository.find({
     relations: {
       skills: true,
