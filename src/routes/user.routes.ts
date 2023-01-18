@@ -47,6 +47,7 @@ userRoutes.get(
 userRoutes.patch(
   "/:id",
   validateAuthTokenMiddleware,
+  validateUserPermissionMiddleware,
   validateDataMiddleware(updateUserSerializer),
   validateIdMiddleware,
   validateUserPermissionMiddleware,
