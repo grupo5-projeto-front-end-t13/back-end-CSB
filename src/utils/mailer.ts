@@ -8,9 +8,9 @@ const transporter = nodemailer.createTransport({
 export const sendEmail = async (payload: SendMailOptions) => {
   transporter.sendMail(payload, (err, info) => {
     if (err) {
-      console.error(err, "Error sending email");
+      // console.error(err, "Error sending email");
       return;
     }
-    console.log(info);
+    // console.log(info);
   });
 };

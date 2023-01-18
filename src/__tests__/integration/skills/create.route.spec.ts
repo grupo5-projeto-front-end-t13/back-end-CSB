@@ -5,10 +5,9 @@ import app from "../../../app";
 import { skillRepository } from "../../../repositories/skillRepository";
 import {
   mockedUserAdmRequest,
-  mockedLoginAdmRequest,
-  mockedBand1,
-  mockedBand1Login,
+  mockedLoginAdmRequest
 } from "../../mocks";
+import { userRepository } from "../../../repositories/userRepository";
 
 describe("Create skill route tests", () => {
   let conn: DataSource;
@@ -25,7 +24,9 @@ describe("Create skill route tests", () => {
   });
 
   beforeEach(async () => {
+    const users = await userRepository.find();
     const skills = await skillRepository.find();
+    await userRepository.remove(users);
     await skillRepository.remove(skills);
   });
 
@@ -43,8 +44,23 @@ describe("Create skill route tests", () => {
   });
 
   it("should not be able to create skills without admin permission", async () => {
-    const user = await request(app).post("/users").send(mockedBand1);
-    const userLogin = await request(app).post("/login").send(mockedBand1Login);
+    const userAdm = await request(app).post("/users").send(mockedUserAdmRequest);
+    const loginAdm = await request(app).post("/login").send(mockedLoginAdmRequest);
+    const createSkill = await request(app).post("/skills").send({ name: "Guitarrista" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
+    const findSkill = await request(app).get("/skills");
+  
+    const user = await request(app).post("/users").send({
+        name: "bruno2",
+        email: "bruno2@gmail.com",
+        password: "123456",
+        type: "band",
+        skills: { id: findSkill.body[0].id },
+      });
+
+    const userLogin = await request(app).post("/login").send({
+      email: "bruno2@gmail.com",
+      password: "123456"
+    });
 
     const response = await request(app)
       .post(baseUrl)

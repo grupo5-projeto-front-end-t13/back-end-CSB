@@ -4,8 +4,6 @@ import app from "../../../app";
 import { AppDataSource } from "../../../data-source";
 import { userRepository } from "../../../repositories/userRepository";
 import {
-  mockedBand1,
-  mockedBand1Login,
   mockedLoginAdmRequest,
   mockedLoginNotAdmRequest,
   mockedUserAdmRequest,
@@ -34,6 +32,7 @@ describe("Update user route tests", () => {
     const newValues = { name: "Mario K. Bruno", password: 123 };
 
     const userAdm = await request(app).post(baseUrl).send(mockedUserAdmRequest);
+    const verify = await request(app).get(`/users/verify/${userAdm.body.id}`);
     const loginAdm = await request(app)
       .post("/login")
       .send(mockedLoginAdmRequest);
@@ -51,6 +50,8 @@ describe("Update user route tests", () => {
         type: "band",
         skills: { id: createSkill.body.id },
       });
+    
+    await request(app).get(`/users/verify/${user.body.id}`);
 
     const response = await request(app)
       .patch(`/users/${user.body.id}`)
@@ -64,6 +65,7 @@ describe("Update user route tests", () => {
     const newValues = { name: "Mario K. Bruno", password: 123 };
 
     const userAdm = await request(app).post(baseUrl).send(mockedUserAdmRequest);
+    const verify = await request(app).get(`/users/verify/${userAdm.body.id}`);
     const loginAdm = await request(app)
       .post("/login")
       .send(mockedLoginAdmRequest);
@@ -71,6 +73,7 @@ describe("Update user route tests", () => {
       .post("/skills")
       .send({ name: "Guitarrista" })
       .set("Authorization", `Bearer ${loginAdm.body.token}`);
+    const findSkill = await request(app).get("/skills");
 
     const user = await request(app)
       .post(baseUrl)
@@ -79,12 +82,15 @@ describe("Update user route tests", () => {
         email: "bruno2@gmail.com",
         password: "123456",
         type: "band",
-        skills: { id: createSkill.body.id },
+        skills: { id: findSkill.body[0].id },
       });
+
+    await request(app).get(`/users/verify/${user.body.id}`);
 
     const userLogin = await request(app)
       .post("/login")
       .send(mockedLoginNotAdmRequest);
+
     const response = await request(app)
       .patch(`/users/4e99808c-c06d-4109-9b95-1a2fef3f8ea7`)
       .send(newValues)
@@ -98,6 +104,7 @@ describe("Update user route tests", () => {
     const newValues = { name: "Mario K. Bruno", password: 123 };
 
     const userAdm = await request(app).post(baseUrl).send(mockedUserAdmRequest);
+    const verify = await request(app).get(`/users/verify/${userAdm.body.id}`);
     const loginAdm = await request(app)
       .post("/login")
       .send(mockedLoginAdmRequest);
@@ -106,22 +113,34 @@ describe("Update user route tests", () => {
       .send({ name: "Guitarrista" })
       .set("Authorization", `Bearer ${loginAdm.body.token}`);
 
-    const user = await request(app)
-      .post(baseUrl)
-      .send({
-        name: "bruno2",
-        email: "bruno2@gmail.com",
-        password: "123456",
-        type: "band",
-        skills: { id: createSkill.body.id },
-      });
+    const findSkill = await request(app).get("/skills");
 
-    const userLogin = await request(app)
-      .post("/login")
-      .send(mockedLoginNotAdmRequest);
+      const user = await request(app)
+        .post(baseUrl)
+        .send({
+          name: "bruno2",
+          email: "bruno2@gmail.com",
+          password: "123456",
+          type: "band",
+          skills: { id: findSkill.body[0].id },
+        });
 
-    const user2 = await request(app).post(baseUrl).send(mockedBand1);
-    const user2Login = await request(app).post("/login").send(mockedBand1Login);
+    await request(app).get(`/users/verify/${user.body.id}`);
+
+    const user2 = await request(app).post(baseUrl).send({
+      name: "Matheus",
+      email: "matheus@gmail.com",
+      password: "123456",
+      type: "musician",
+      skills: { id: findSkill.body[0].id },
+    });
+
+    await request(app).get(`/users/verify/${user2.body.id}`);
+
+    const user2Login = await request(app).post("/login").send({
+      email: "matheus@gmail.com",
+      password: "123456"
+    });
 
     const response = await request(app)
       .patch(`/users/${user.body.id}`)
@@ -136,6 +155,7 @@ describe("Update user route tests", () => {
     const newValues = { name: "Mario K. Bruno", password: 123 };
 
     const userAdm = await request(app).post(baseUrl).send(mockedUserAdmRequest);
+    const verify = await request(app).get(`/users/verify/${userAdm.body.id}`);
     const loginAdm = await request(app)
       .post("/login")
       .send(mockedLoginAdmRequest);
@@ -144,6 +164,8 @@ describe("Update user route tests", () => {
       .send({ name: "Guitarrista" })
       .set("Authorization", `Bearer ${loginAdm.body.token}`);
 
+    const findSkill = await request(app).get("/skills");
+
     const user = await request(app)
       .post(baseUrl)
       .send({
@@ -151,12 +173,15 @@ describe("Update user route tests", () => {
         email: "bruno2@gmail.com",
         password: "123456",
         type: "band",
-        skills: { id: createSkill.body.id },
+        skills: { id: findSkill.body[0].id },
       });
+
+    await request(app).get(`/users/verify/${user.body.id}`);
 
     const userLogin = await request(app)
       .post("/login")
       .send(mockedLoginNotAdmRequest);
+
     const response = await request(app)
       .patch(`/users/${user.body.id}`)
       .send(newValues)
@@ -171,6 +196,7 @@ describe("Update user route tests", () => {
     const newValues = { name: "Lype Platinas", email: "eoplatinas@mail.com" };
 
     const userAdm = await request(app).post(baseUrl).send(mockedUserAdmRequest);
+    const verify = await request(app).get(`/users/verify/${userAdm.body.id}`);
     const loginAdm = await request(app)
       .post("/login")
       .send(mockedLoginAdmRequest);
@@ -179,6 +205,8 @@ describe("Update user route tests", () => {
       .send({ name: "Guitarrista" })
       .set("Authorization", `Bearer ${loginAdm.body.token}`);
 
+    const findSkill = await request(app).get("/skills");
+
     const user = await request(app)
       .post(baseUrl)
       .send({
@@ -186,12 +214,11 @@ describe("Update user route tests", () => {
         email: "bruno2@gmail.com",
         password: "123456",
         type: "band",
-        skills: { id: createSkill.body.id },
+        skills: { id: findSkill.body[0].id },
       });
 
-    const userLogin = await request(app)
-      .post("/login")
-      .send(mockedLoginNotAdmRequest);
+    await request(app).get(`/users/verify/${user.body.id}`);
+
     const response = await request(app)
       .patch(`/users/${user.body.id}`)
       .send(newValues)
@@ -201,5 +228,38 @@ describe("Update user route tests", () => {
     expect(response.body.name).toEqual("Lype Platinas");
     expect(response.body.email).toEqual("eoplatinas@mail.com");
     expect(response.body).not.toHaveProperty("password");
+  });
+
+  it("Should not be able to update user not verified", async () => {
+    const newValues = { name: "Lype Platinas", email: "eoplatinas@mail.com" };
+
+    const userAdm = await request(app).post(baseUrl).send(mockedUserAdmRequest);
+    const loginAdm = await request(app)
+      .post("/login")
+      .send(mockedLoginAdmRequest);
+    const createSkill = await request(app)
+      .post("/skills")
+      .send({ name: "Guitarrista" })
+      .set("Authorization", `Bearer ${loginAdm.body.token}`);
+
+    const findSkill = await request(app).get("/skills");
+
+    const user = await request(app)
+      .post(baseUrl)
+      .send({
+        name: "bruno2",
+        email: "bruno2@gmail.com",
+        password: "123456",
+        type: "band",
+        skills: { id: findSkill.body[0].id },
+      });
+
+    const response = await request(app)
+      .patch(`/users/${user.body.id}`)
+      .send(newValues)
+      .set("Authorization", `Bearer ${loginAdm.body.token}`);
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");    
   });
 });
