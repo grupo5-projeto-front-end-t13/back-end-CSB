@@ -11,6 +11,6 @@ export const sendEmail = async (payload: SendMailOptions) => {
       console.error(err, "Error sending email");
       return;
     }
-    console.log(info);
+    // console.log(info);
   });
 };
