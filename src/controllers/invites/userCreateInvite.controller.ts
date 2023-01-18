@@ -5,7 +5,10 @@ export const createUserInviteController = async (
   req: Request,
   res: Response
 ) => {
-  const body = req.body;
-  const invite = await userCreateInviteService(body);
-  return res.status(201).json(invite);
+  const idSend = req.body.userIdSend;
+  const idReceive = req.body.userIdReceive;
+
+  const data = await userCreateInviteService(idReceive, idSend);
+
+  return res.status(201).json(data);
 };

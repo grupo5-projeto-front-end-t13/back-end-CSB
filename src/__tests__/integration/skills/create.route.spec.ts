@@ -1,23 +1,93 @@
 import { DataSource } from "typeorm";
 import { AppDataSource } from "../../../data-source";
+import request from "supertest";
+import app from "../../../app";
+import { skillRepository } from "../../../repositories/skillRepository";
+import {
+  mockedUserAdmRequest,
+  mockedLoginAdmRequest
+} from "../../mocks";
 import { userRepository } from "../../../repositories/userRepository";
 
-describe ('Skill route tests', () => {
+describe("Create skill route tests", () => {
   let conn: DataSource;
-  const baseUrl: string = "/skills"
+  const baseUrl: string = "/skills";
 
-  beforeAll(async()=>{
+  beforeAll(async () => {
     await AppDataSource.initialize()
-    .then((res=> (conn = res)))
-    .catch((err)=> console.error(err))
+      .then((res) => (conn = res))
+      .catch((err) => console.error(err));
   });
 
-  afterAll(async()=>{
-    await conn.destroy()
+  afterAll(async () => {
+    await conn.destroy();
   });
 
-  beforeEach(async()=> {
-    const users = await userRepository.find()
-    await userRepository.remove(users)
-  })
-})
+  beforeEach(async () => {
+    const users = await userRepository.find();
+    const skills = await skillRepository.find();
+    await userRepository.remove(users);
+    await skillRepository.remove(skills);
+  });
+
+  it("should not be able to create skills without authentication", async () => {
+    const userAdm = await request(app)
+      .post("/users")
+      .send(mockedUserAdmRequest);
+
+    const response = await request(app)
+      .post(baseUrl)
+      .send({ name: "tecladista2" });
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  it("should not be able to create skills without admin permission", async () => {
+    const userAdm = await request(app).post("/users").send(mockedUserAdmRequest);
+    const loginAdm = await request(app).post("/login").send(mockedLoginAdmRequest);
+    const createSkill = await request(app).post("/skills").send({ name: "Guitarrista" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
+    const findSkill = await request(app).get("/skills");
+  
+    const user = await request(app).post("/users").send({
+        name: "bruno2",
+        email: "bruno2@gmail.com",
+        password: "123456",
+        type: "band",
+        skills: { id: findSkill.body[0].id },
+      });
+
+    const userLogin = await request(app).post("/login").send({
+      email: "bruno2@gmail.com",
+      password: "123456"
+    });
+
+    const response = await request(app)
+      .post(baseUrl)
+      .send({ name: "tecladista2" })
+      .set("Authorization", `Bearer ${userLogin.body.token}`);
+
+    expect(response.status).toBe(403);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  it("should be able to create skills", async () => {
+    const userAdm = await request(app)
+      .post("/users")
+      .send(mockedUserAdmRequest);
+    const loginUserAdm = await request(app)
+      .post("/login")
+      .send(mockedLoginAdmRequest);
+
+    const response = await request(app)
+      .post(baseUrl)
+      .send({ name: "tecladista2" })
+      .set("Authorization", `Bearer ${loginUserAdm.body.token}`);
+
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("id");
+
+    const [skills, amount] = await skillRepository.findAndCount();
+    expect(amount).toBe(1);
+  });
+});

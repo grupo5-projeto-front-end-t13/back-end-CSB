@@ -27,18 +27,19 @@ export const userSerializer: yup.SchemaOf<iUser> = yup.object().shape({
   id: yup.string().uuid().required(),
   email: yup.string().email().required(),
   type: yup.string().required(),
-  username: yup.string().notRequired(),
+  username: yup.string().nullable().notRequired(),
   name: yup.string().required(),
-  bio: yup.string().required(),
-  genre: yup.string().notRequired(),
-  image: yup.string().required(),
+  bio: yup.string().nullable().notRequired(),
+  genre: yup.string().nullable().notRequired(),
+  image: yup.string().nullable().notRequired(),
   isAdm: yup.boolean().required(),
-  social_media: yup.string().required(),
-  state: yup.string().required(),
+  verified: yup.boolean().required(),
+  social_media: yup.string().nullable().notRequired(),
+  state: yup.string().nullable().notRequired(),
   createdAt: yup.date().required(),
   updatedAt: yup.date().required(),
   skills: yup.object().shape({
-    id: yup.string().uuid().required(),
+    id: yup.string().uuid().notRequired(),
     name: yup.string().notRequired(),
   }),
 });
@@ -118,6 +119,7 @@ export const updateUserSerializer: yup.SchemaOf<iUserUpdateRequest> = yup
       .object()
       .shape({
         id: yup.string().uuid().notRequired(),
+        name: yup.string().notRequired(),
       })
       .notRequired(),
   });

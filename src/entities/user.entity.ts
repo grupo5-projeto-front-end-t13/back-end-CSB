@@ -12,7 +12,6 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import Invites from "./invites.entity";
-// import Invites from "./invites.entity";
 import Skill from "./skill.entity";
 
 @Entity("user")
@@ -58,6 +57,9 @@ export default class User {
 
   @Column({ default: false })
   isAdm: boolean;
+
+  @Column({ default: false })
+  verified: boolean;
 
   @ManyToOne(() => Skill)
   skills: Skill;

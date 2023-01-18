@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import { loginService } from "../../services/login/login.service";
 
 export const loginController = async (req: Request, res: Response) => {
-    const data = req.body;
-    const token = await loginService(data);
+  const email = req.body.email;
 
-    return res.status(200).json(token);
-}
+  const token = await loginService(email);
+
+  return res.status(200).json(token);
+};

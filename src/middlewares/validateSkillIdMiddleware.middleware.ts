@@ -7,9 +7,10 @@ export const validateSkillIdMiddleware = async (
   next: NextFunction
 ) => {
   let id: string = req.params.id;
-  const skill = await skillRepository.findOneBy({ id: id });
 
-  if (!skill) return res.status(404).json({ message: "Invalid Skill Id" });
+  const skill = await skillRepository.findOneBy({ id });
+
+  if (!skill) return res.status(404).json({ message: "Can not find Skill" });
 
   return next();
 };

@@ -1,5 +1,3 @@
-import { iInviteRequest } from "./invites.interfaces";
-
 export interface iSkill {
   id?: string;
   name?: string;
@@ -18,16 +16,17 @@ export interface iUser {
   id: string;
   name: string;
   email: string;
-  bio: string;
-  state: string;
+  bio?: string | null;
+  state?: string | null;
   type: string;
-  genre?: string;
-  username?: string;
-  social_media: string;
-  image: string;
+  genre?: string | null;
+  username?: string | null;
+  social_media?: string | null;
+  image?: string | null;
   createdAt: Date;
   updatedAt: Date;
   isAdm: boolean;
+  verified: boolean;
   skills: iSkill;
 }
 
