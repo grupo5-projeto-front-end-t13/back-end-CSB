@@ -16,7 +16,7 @@ export const createUsersService = async (
   if (findUser) throw new AppError(409, "User already exists");
 
   const findSkill = await skillRepository.findOneBy({
-    id: data.skills.id,
+    id: data.skills!.id,
   });
 
   if (!findSkill && !rest.isAdm)

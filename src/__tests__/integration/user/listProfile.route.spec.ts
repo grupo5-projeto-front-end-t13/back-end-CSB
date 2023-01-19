@@ -3,10 +3,7 @@ import { DataSource } from "typeorm";
 import app from "../../../app";
 import { AppDataSource } from "../../../data-source";
 import { userRepository } from "../../../repositories/userRepository";
-import {
-  mockedLoginAdmRequest,
-  mockedUserAdmRequest
-} from "../../mocks/";
+import { mockedLoginAdmRequest, mockedUserAdmRequest } from "../../mocks/";
 
 describe("List user profile tests", () => {
   let conn: DataSource;
@@ -49,20 +46,25 @@ describe("List user profile tests", () => {
       .post("/login")
       .send(mockedLoginAdmRequest);
 
-    const createSkill = await request(app).post("/skills").send({ name: "Guitarrista" }).set("Authorization", `Bearer ${adminLogin.body.token}`);
+    const createSkill = await request(app)
+      .post("/skills")
+      .send({ name: "Guitarrista" })
+      .set("Authorization", `Bearer ${adminLogin.body.token}`);
     const findSkill = await request(app).get("/skills");
 
-    const user = await request(app).post(baseUrl).send({
-      name: "bruno2",
-      email: "bruno2@gmail.com",
-      password: "123456",
-      type: "band",
-      skills: { id: findSkill.body[0].id },
-    });
+    const user = await request(app)
+      .post(baseUrl)
+      .send({
+        name: "bruno2",
+        email: "bruno2@gmail.com",
+        password: "123456",
+        type: "band",
+        skills: { id: findSkill.body[0].id },
+      });
 
     const userLogin = await request(app).post("/login").send({
       email: "bruno2@gmail.com",
-      password: "123456"
+      password: "123456",
     });
 
     const response = await request(app)

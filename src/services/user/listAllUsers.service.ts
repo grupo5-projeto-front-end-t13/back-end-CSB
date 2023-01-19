@@ -3,7 +3,11 @@ import { userRepository } from "../../repositories/userRepository";
 import { listUsers } from "../../serializers/user/user.serializers";
 
 export const listAllUsersService = async (): Promise<iUser[]> => {
-  const users = await userRepository.find();
+  const users = await userRepository.find({
+    relations: {
+      skills: true,
+    },
+  });
 
   const validatedUsers = await listUsers.validate(users, {
     stripUnknown: true,

@@ -3,7 +3,7 @@ import { userRepository } from "../../repositories/userRepository";
 import { sendEmail } from "../../utils/mailer";
 
 export const userForgotPassService = async (email: string) => {
-  const user = await userRepository.findOneBy({ email: email });
+  const user = await userRepository.findOneBy({ email });
 
   if (!user) {
     throw new AppError(
