@@ -3,10 +3,7 @@ import { AppDataSource } from "../../../data-source";
 import request from "supertest";
 import app from "../../../app";
 import { skillRepository } from "../../../repositories/skillRepository";
-import {
-  mockedUserAdmRequest,
-  mockedLoginAdmRequest
-} from "../../mocks";
+import { mockedUserAdmRequest, mockedLoginAdmRequest } from "../../mocks";
 import { userRepository } from "../../../repositories/userRepository";
 
 describe("Create skill route tests", () => {
@@ -44,12 +41,21 @@ describe("Create skill route tests", () => {
   });
 
   it("should not be able to create skills without admin permission", async () => {
-    const userAdm = await request(app).post("/users").send(mockedUserAdmRequest);
-    const loginAdm = await request(app).post("/login").send(mockedLoginAdmRequest);
-    const createSkill = await request(app).post("/skills").send({ name: "Guitarrista" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
+    const userAdm = await request(app)
+      .post("/users")
+      .send(mockedUserAdmRequest);
+    const loginAdm = await request(app)
+      .post("/login")
+      .send(mockedLoginAdmRequest);
+    const createSkill = await request(app)
+      .post("/skills")
+      .send({ name: "Guitarrista" })
+      .set("Authorization", `Bearer ${loginAdm.body.token}`);
     const findSkill = await request(app).get("/skills");
-  
-    const user = await request(app).post("/users").send({
+
+    const user = await request(app)
+      .post("/users")
+      .send({
         name: "bruno2",
         email: "bruno2@gmail.com",
         password: "123456",
@@ -59,7 +65,7 @@ describe("Create skill route tests", () => {
 
     const userLogin = await request(app).post("/login").send({
       email: "bruno2@gmail.com",
-      password: "123456"
+      password: "123456",
     });
 
     const response = await request(app)

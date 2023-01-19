@@ -23,9 +23,9 @@ export const userUpdateService = async (
 
   const { skills, ...data } = userData;
 
-  const findSkill = skills.id
+  const findSkill = skills!.id
     ? await skillRepository.findOneBy({
-        id: skills.id,
+        id: skills!.id,
       })
     : user.skills;
 
