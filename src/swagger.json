@@ -15,7 +15,7 @@
             "description": "API de desenvolvimento"
         },
         {
-            "url": "https://complete-sua-banda.onrender.com/",
+            "url": "https://complete-sua-banda.onrender.com",
             "description": "API de produção"
         }
     ],
@@ -34,22 +34,22 @@
                         "examples":{
                             "UserBand": {
                                 "value": {
-                                    "name": "AC/DC",
-                                    "email": "acdc@mail.com",
+                                    "name": "Grupo Mensagem",
+                                    "email": "ferlima_9@hotmail.com",
                                     "password": "123456",
                                     "skills": {
-                                        "id": "0e8f6505-0dc3-418e-a066-f8b5e47f33e5"
+                                        "id": "f81b8307-0ff4-4b95-859e-6f55cb33e6a9"
                                     },
                                     "type": "band"
                                 }
                             },
                             "UserMusician": {
                                 "value": {
-                                    "name": "Yamandu Costa",
-                                    "email": "yamandu@mail.com",
+                                    "name": "Fernando Lima",
+                                    "email": "fernandojunqueira12@gmail.com",
                                     "password": "123456",
                                     "skills": {
-                                        "id": "97f23b77-2f82-4d84-ad89-9103d186bc31"
+                                        "id": "f81b8307-0ff4-4b95-859e-6f55cb33e6a9"
                                     },
                                     "type": "musician"
                                 }
@@ -411,13 +411,13 @@
                         "examples": {
                             "loginBand": {
                                 "value": {
-                                    "email": "acdc@mail.com",
+                                    "email": "ferlima_9@hotmail.com",
                                     "password": "123456"
                                 }
                             },
                             "loginMusician": {
                                 "value": {
-                                    "email": "fernando@mail.com",
+                                    "email": "fernandojunqueira12@gmail.com",
                                     "password": "123456"
                                 }
                             },
@@ -457,7 +457,7 @@
                 }
             }
         },
-        "/invites/sended": {
+        "/invites": {
             "post": {
                 "summary": "Responsável por enviar um convite",
                 "description": "Essa será a rota que fará o convite tanto de musico para banda quanto o inverso",
@@ -649,9 +649,9 @@
             }
         },
         "skills/:id": {
-            "delete":{
-                "summary": "Deleta uma skill existente",
-                "description": "Essa rota faz a deleção de uma skill",
+            "patch":{
+                "summary": "Atualiza uma skill existente",
+                "description": "Essa rota faz a atualização de uma skill",
                 "tags": ["Skills"],
                 "security": [{"bearerAuth": []}],
                 "parameters": [

@@ -52,7 +52,7 @@ export const userCreateInviteService = async (
     from: "completesuabanda@gmail.com",
     to: findReceiveUser.email,
     subject: "Você recebeu um convite",
-    text: `O usuário ${findSendUser.name} te enviou um convite, caso aceite, enviar um email para ${findSendUser.email}. Acessa o site https://complete-sua-banda.vercel.app/ para mais informações.`,
+    text: `O usuário ${findSendUser.name} te enviou um convite, caso aceite, enviar um email para ${findSendUser.email}. Acesse o site https://complete-sua-banda.vercel.app/ para mais informações.`,
   });
 
   return returnNewInvite;
