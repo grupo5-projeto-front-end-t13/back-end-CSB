@@ -7,7 +7,7 @@ export interface iUserRequest {
   name: string;
   email: string;
   password: string;
-  skills: iSkill;
+  skills: iSkill | null;
   type: string;
   isAdm?: boolean;
 }
@@ -27,7 +27,7 @@ export interface iUser {
   updatedAt: Date;
   isAdm: boolean;
   verified: boolean;
-  skills: iSkill;
+  skills: iSkill | null;
 }
 
 export interface iUserMusician {
@@ -41,7 +41,7 @@ export interface iUserMusician {
   image?: string | null;
   createdAt: Date;
   updatedAt: Date;
-  skills: iSkill;
+  skills: iSkill | null;
 }
 
 export interface iUserBand {
@@ -55,14 +55,14 @@ export interface iUserBand {
   image?: string | null;
   createdAt: Date;
   updatedAt: Date;
-  skills: iSkill;
+  skills: iSkill | null;
 }
 
 export interface iUserCreateResponse {
   id?: string;
   name?: string;
   email?: string;
-  skills?: iSkill;
+  skills?: iSkill | null;
   createdAt?: Date;
   updatedAt?: Date;
   type?: string;
@@ -78,5 +78,5 @@ export interface iUserUpdateRequest {
   genre?: string;
   social_media?: string;
   image?: string;
-  skills: iSkill;
+  skills: iSkill | null;
 }

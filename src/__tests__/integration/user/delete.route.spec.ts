@@ -30,17 +30,22 @@ describe("Delete user route tests", () => {
       .post("/login")
       .send(mockedLoginAdmRequest);
 
-    const createSkill = await request(app).post("/skills").send({ name: "Guitarrista" }).set("Authorization", `Bearer ${adminLogin.body.token}`);
+    const createSkill = await request(app)
+      .post("/skills")
+      .send({ name: "Guitarrista" })
+      .set("Authorization", `Bearer ${adminLogin.body.token}`);
     const findSkill = await request(app).get("/skills");
-  
-    const deletedUser = await request(app).post(baseUrl).send({
+
+    const deletedUser = await request(app)
+      .post(baseUrl)
+      .send({
         name: "bruno2",
         email: "bruno2@gmail.com",
         password: "123456",
         type: "band",
         skills: { id: findSkill.body[0].id },
       });
-    
+
     const response = await request(app).delete(
       `${baseUrl}/${deletedUser.body.id}`
     );
@@ -69,39 +74,44 @@ describe("Delete user route tests", () => {
       .post("/login")
       .send(mockedLoginAdmRequest);
 
-    const createSkill = await request(app).post("/skills").send({ name: "Guitarrista" }).set("Authorization", `Bearer ${adminLogin.body.token}`);
+    const createSkill = await request(app)
+      .post("/skills")
+      .send({ name: "Guitarrista" })
+      .set("Authorization", `Bearer ${adminLogin.body.token}`);
     const findSkill = await request(app).get("/skills");
 
-    const user1 = await request(app).post(baseUrl).send({
-      name: "bruno2",
+    const user1 = await request(app)
+      .post(baseUrl)
+      .send({
+        name: "bruno2",
+        email: "bruno2@gmail.com",
+        password: "123456",
+        type: "band",
+        skills: { id: findSkill.body[0].id },
+      });
+
+    const userLogin1 = await request(app).post("/login").send({
       email: "bruno2@gmail.com",
       password: "123456",
-      type: "band",
-      skills: { id: findSkill.body[0].id },
     });
 
-    const userLogin1 = await request(app)
-      .post("/login")
+    const user2 = await request(app)
+      .post(baseUrl)
       .send({
-        email: "bruno2@gmail.com",
-        password: "123456"
-    });
-
-    const user2 = await request(app).post(baseUrl).send({
         name: "bruno",
         email: "bruno3@gmail.com",
         password: "123456",
         type: "band",
         skills: { id: findSkill.body[0].id },
-    });
-    
-    const response = await request(app).delete(
-      `${baseUrl}/${user2.body.id}`
-    ).set("Authorization", `Bearer ${userLogin1.body.token}`);
+      });
+
+    const response = await request(app)
+      .delete(`${baseUrl}/${user2.body.id}`)
+      .set("Authorization", `Bearer ${userLogin1.body.token}`);
 
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty("message");
-});
+  });
 
   it("Should be able to delete any user being admin", async () => {
     const admin = await request(app).post(baseUrl).send(mockedUserAdmRequest);
@@ -109,20 +119,25 @@ describe("Delete user route tests", () => {
       .post("/login")
       .send(mockedLoginAdmRequest);
 
-    const createSkill = await request(app).post("/skills").send({ name: "Guitarrista" }).set("Authorization", `Bearer ${adminLogin.body.token}`);
+    const createSkill = await request(app)
+      .post("/skills")
+      .send({ name: "Guitarrista" })
+      .set("Authorization", `Bearer ${adminLogin.body.token}`);
     const findSkill = await request(app).get("/skills");
-  
-    const deletedUser = await request(app).post(baseUrl).send({
+
+    const deletedUser = await request(app)
+      .post(baseUrl)
+      .send({
         name: "bruno2",
         email: "bruno2@gmail.com",
         password: "123456",
         type: "band",
         skills: { id: findSkill.body[0].id },
       });
-    
-    const response = await request(app).delete(
-      `${baseUrl}/${deletedUser.body.id}`
-    ).set("Authorization", `Bearer ${adminLogin.body.token}`);
+
+    const response = await request(app)
+      .delete(`${baseUrl}/${deletedUser.body.id}`)
+      .set("Authorization", `Bearer ${adminLogin.body.token}`);
 
     expect(response.status).toBe(204);
   });
@@ -133,26 +148,30 @@ describe("Delete user route tests", () => {
       .post("/login")
       .send(mockedLoginAdmRequest);
 
-    const createSkill = await request(app).post("/skills").send({ name: "Guitarrista" }).set("Authorization", `Bearer ${adminLogin.body.token}`);
+    const createSkill = await request(app)
+      .post("/skills")
+      .send({ name: "Guitarrista" })
+      .set("Authorization", `Bearer ${adminLogin.body.token}`);
     const findSkill = await request(app).get("/skills");
-  
-    const user = await request(app).post(baseUrl).send({
+
+    const user = await request(app)
+      .post(baseUrl)
+      .send({
         name: "bruno2",
         email: "bruno2@gmail.com",
         password: "123456",
         type: "band",
         skills: { id: findSkill.body[0].id },
       });
-    
-    const userLogin = await request(app).post("/login")
-    .send({
+
+    const userLogin = await request(app).post("/login").send({
       email: "bruno2@gmail.com",
-      password: "123456"
+      password: "123456",
     });
-    
-    const response = await request(app).delete(
-      `${baseUrl}/${user.body.id}`
-    ).set("Authorization", `Bearer ${userLogin.body.token}`);
+
+    const response = await request(app)
+      .delete(`${baseUrl}/${user.body.id}`)
+      .set("Authorization", `Bearer ${userLogin.body.token}`);
 
     expect(response.status).toBe(204);
   });

@@ -5,7 +5,13 @@ import { AppDataSource } from "../../../data-source";
 import { inviteRepository } from "../../../repositories/inviteRepository";
 import { skillRepository } from "../../../repositories/skillRepository";
 import { userRepository } from "../../../repositories/userRepository";
-import {mockedBand1,mockedBand1Login,mockedMusician1,mockedUserAdmRequest,mockedLoginAdmRequest} from "../../mocks";
+import {
+  mockedBand1,
+  mockedBand1Login,
+  mockedMusician1,
+  mockedUserAdmRequest,
+  mockedLoginAdmRequest,
+} from "../../mocks";
 
 describe("List invite route tests", () => {
   let conn: DataSource;
@@ -26,17 +32,28 @@ describe("List invite route tests", () => {
     await inviteRepository.remove(invites);
     const users = await userRepository.find();
     await userRepository.remove(users);
-    const skills = await skillRepository.find()
-    await skillRepository.remove(skills)
+    const skills = await skillRepository.find();
+    await skillRepository.remove(skills);
   });
 
   it("should be able to list received invites", async () => {
-    const userAdm = await request(app).post("/users").send(mockedUserAdmRequest);
-    const loginAdm = await request(app).post("/login").send(mockedLoginAdmRequest);
-    const skills = await request(app).post("/skills").send({ name: "tecladista2" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
+    const userAdm = await request(app)
+      .post("/users")
+      .send(mockedUserAdmRequest);
+    const loginAdm = await request(app)
+      .post("/login")
+      .send(mockedLoginAdmRequest);
+    const skills = await request(app)
+      .post("/skills")
+      .send({ name: "tecladista2" })
+      .set("Authorization", `Bearer ${loginAdm.body.token}`);
 
-    const user1 = await request(app).post("/users").send({...mockedBand1,skills:{id:skills.body.id}});
-    const user2 = await request(app).post("/users").send({...mockedMusician1,skills:{id:skills.body.id}});
+    const user1 = await request(app)
+      .post("/users")
+      .send({ ...mockedBand1, skills: { id: skills.body.id } });
+    const user2 = await request(app)
+      .post("/users")
+      .send({ ...mockedMusician1, skills: { id: skills.body.id } });
 
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
     const loginUser2 = await request(app).post("/login").send(mockedMusician1);
@@ -60,13 +77,24 @@ describe("List invite route tests", () => {
   });
 
   it("should not be able to list received invites without token", async () => {
-    const userAdm = await request(app).post("/users").send(mockedUserAdmRequest);
-    const loginAdm = await request(app).post("/login").send(mockedLoginAdmRequest);
-    const skills = await request(app).post("/skills").send({ name: "tecladista2" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
+    const userAdm = await request(app)
+      .post("/users")
+      .send(mockedUserAdmRequest);
+    const loginAdm = await request(app)
+      .post("/login")
+      .send(mockedLoginAdmRequest);
+    const skills = await request(app)
+      .post("/skills")
+      .send({ name: "tecladista2" })
+      .set("Authorization", `Bearer ${loginAdm.body.token}`);
 
-    const user1 = await request(app).post("/users").send({...mockedBand1,skills:{id:skills.body.id}});
+    const user1 = await request(app)
+      .post("/users")
+      .send({ ...mockedBand1, skills: { id: skills.body.id } });
     await request(app).get(`/users/verify/${user1.body.id}`);
-    const user2 = await request(app).post("/users").send({...mockedMusician1,skills:{id:skills.body.id}});
+    const user2 = await request(app)
+      .post("/users")
+      .send({ ...mockedMusician1, skills: { id: skills.body.id } });
 
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
     const invite = await request(app)
@@ -85,13 +113,24 @@ describe("List invite route tests", () => {
   });
 
   it("should be able to list sended invites", async () => {
-    const userAdm = await request(app).post("/users").send(mockedUserAdmRequest);
-    const loginAdm = await request(app).post("/login").send(mockedLoginAdmRequest);
-    const skills = await request(app).post("/skills").send({ name: "tecladista2" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
+    const userAdm = await request(app)
+      .post("/users")
+      .send(mockedUserAdmRequest);
+    const loginAdm = await request(app)
+      .post("/login")
+      .send(mockedLoginAdmRequest);
+    const skills = await request(app)
+      .post("/skills")
+      .send({ name: "tecladista2" })
+      .set("Authorization", `Bearer ${loginAdm.body.token}`);
 
-    const user1 = await request(app).post("/users").send({...mockedBand1,skills:{id:skills.body.id}});
+    const user1 = await request(app)
+      .post("/users")
+      .send({ ...mockedBand1, skills: { id: skills.body.id } });
     await request(app).get(`/users/verify/${user1.body.id}`);
-    const user2 = await request(app).post("/users").send({...mockedMusician1,skills:{id:skills.body.id}});
+    const user2 = await request(app)
+      .post("/users")
+      .send({ ...mockedMusician1, skills: { id: skills.body.id } });
 
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
     const invite = await request(app)
@@ -111,12 +150,23 @@ describe("List invite route tests", () => {
   });
 
   it("should not be able to list sended invites withoud token", async () => {
-    const userAdm = await request(app).post("/users").send(mockedUserAdmRequest);
-    const loginAdm = await request(app).post("/login").send(mockedLoginAdmRequest);
-    const skills = await request(app).post("/skills").send({ name: "tecladista2" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
+    const userAdm = await request(app)
+      .post("/users")
+      .send(mockedUserAdmRequest);
+    const loginAdm = await request(app)
+      .post("/login")
+      .send(mockedLoginAdmRequest);
+    const skills = await request(app)
+      .post("/skills")
+      .send({ name: "tecladista2" })
+      .set("Authorization", `Bearer ${loginAdm.body.token}`);
 
-    const user1 = await request(app).post("/users").send({...mockedBand1,skills:{id:skills.body.id}});
-    const user2 = await request(app).post("/users").send({...mockedMusician1,skills:{id:skills.body.id}});
+    const user1 = await request(app)
+      .post("/users")
+      .send({ ...mockedBand1, skills: { id: skills.body.id } });
+    const user2 = await request(app)
+      .post("/users")
+      .send({ ...mockedMusician1, skills: { id: skills.body.id } });
 
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
     const invite = await request(app)
@@ -135,13 +185,24 @@ describe("List invite route tests", () => {
   });
 
   it("should not be able to list with invalid id", async () => {
-    const userAdm = await request(app).post("/users").send(mockedUserAdmRequest);
-    const loginAdm = await request(app).post("/login").send(mockedLoginAdmRequest);
-    const skills = await request(app).post("/skills").send({ name: "tecladista2" }).set("Authorization", `Bearer ${loginAdm.body.token}`);
+    const userAdm = await request(app)
+      .post("/users")
+      .send(mockedUserAdmRequest);
+    const loginAdm = await request(app)
+      .post("/login")
+      .send(mockedLoginAdmRequest);
+    const skills = await request(app)
+      .post("/skills")
+      .send({ name: "tecladista2" })
+      .set("Authorization", `Bearer ${loginAdm.body.token}`);
 
-    const user1 = await request(app).post("/users").send({...mockedBand1,skills:{id:skills.body.id}});
-    const user2 = await request(app).post("/users").send({...mockedMusician1,skills:{id:skills.body.id}});
-    
+    const user1 = await request(app)
+      .post("/users")
+      .send({ ...mockedBand1, skills: { id: skills.body.id } });
+    const user2 = await request(app)
+      .post("/users")
+      .send({ ...mockedMusician1, skills: { id: skills.body.id } });
+
     const loginUser1 = await request(app).post("/login").send(mockedBand1Login);
     const invite = await request(app)
       .post(baseUrl)

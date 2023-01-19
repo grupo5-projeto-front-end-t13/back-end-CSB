@@ -17,7 +17,7 @@ export const createUserSerializer: yup.SchemaOf<iUserRequest> = yup
     email: yup.string().email().required(),
     password: yup.string().required(),
     type: yup.string().required(),
-    skills: yup.object().shape({
+    skills: yup.object().nullable().shape({
       id: yup.string().uuid().required(),
       name: yup.string().notRequired(),
     }),
@@ -38,7 +38,7 @@ export const userSerializer: yup.SchemaOf<iUser> = yup.object().shape({
   state: yup.string().nullable().notRequired(),
   createdAt: yup.date().required(),
   updatedAt: yup.date().required(),
-  skills: yup.object().shape({
+  skills: yup.object().nullable().shape({
     id: yup.string().uuid().notRequired(),
     name: yup.string().notRequired(),
   }),
@@ -59,7 +59,7 @@ export const musicianSerializer: yup.SchemaOf<iUserMusician> = yup
     state: yup.string().nullable(),
     createdAt: yup.date().required(),
     updatedAt: yup.date().required(),
-    skills: yup.object().shape({
+    skills: yup.object().nullable().shape({
       id: yup.string().uuid().required(),
       name: yup.string().notRequired(),
     }),
@@ -78,7 +78,7 @@ export const bandSerializer: yup.SchemaOf<iUserBand> = yup.object().shape({
   state: yup.string().nullable(),
   createdAt: yup.date().required(),
   updatedAt: yup.date().required(),
-  skills: yup.object().shape({
+  skills: yup.object().nullable().shape({
     id: yup.string().uuid().required(),
     name: yup.string().notRequired(),
   }),
@@ -92,7 +92,7 @@ export const createUserResponseSerializer: yup.SchemaOf<iUserCreateResponse> =
     name: yup.string().notRequired(),
     email: yup.string().email().notRequired(),
     type: yup.string().notRequired(),
-    skills: yup.object().shape({
+    skills: yup.object().nullable().shape({
       id: yup.string().uuid().notRequired(),
       name: yup.string().notRequired(),
     }),

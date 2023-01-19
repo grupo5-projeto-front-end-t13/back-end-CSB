@@ -50,7 +50,7 @@ describe("Update user route tests", () => {
         type: "band",
         skills: { id: createSkill.body.id },
       });
-    
+
     await request(app).get(`/users/verify/${user.body.id}`);
 
     const response = await request(app)
@@ -115,31 +115,33 @@ describe("Update user route tests", () => {
 
     const findSkill = await request(app).get("/skills");
 
-      const user = await request(app)
-        .post(baseUrl)
-        .send({
-          name: "bruno2",
-          email: "bruno2@gmail.com",
-          password: "123456",
-          type: "band",
-          skills: { id: findSkill.body[0].id },
-        });
+    const user = await request(app)
+      .post(baseUrl)
+      .send({
+        name: "bruno2",
+        email: "bruno2@gmail.com",
+        password: "123456",
+        type: "band",
+        skills: { id: findSkill.body[0].id },
+      });
 
     await request(app).get(`/users/verify/${user.body.id}`);
 
-    const user2 = await request(app).post(baseUrl).send({
-      name: "Matheus",
-      email: "matheus@gmail.com",
-      password: "123456",
-      type: "musician",
-      skills: { id: findSkill.body[0].id },
-    });
+    const user2 = await request(app)
+      .post(baseUrl)
+      .send({
+        name: "Matheus",
+        email: "matheus@gmail.com",
+        password: "123456",
+        type: "musician",
+        skills: { id: findSkill.body[0].id },
+      });
 
     await request(app).get(`/users/verify/${user2.body.id}`);
 
     const user2Login = await request(app).post("/login").send({
       email: "matheus@gmail.com",
-      password: "123456"
+      password: "123456",
     });
 
     const response = await request(app)
@@ -260,6 +262,6 @@ describe("Update user route tests", () => {
       .set("Authorization", `Bearer ${loginAdm.body.token}`);
 
     expect(response.status).toBe(401);
-    expect(response.body).toHaveProperty("message");    
+    expect(response.body).toHaveProperty("message");
   });
 });
